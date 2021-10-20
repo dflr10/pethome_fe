@@ -1,11 +1,26 @@
 <template>
     <div id="app" class="app">
         <header class="header">
-            <img class="logo" src="../src/assets/pethome64.png" alt="pethome" >
-            <h1>PETHOME</h1>
+            <div class="logo">
+                <img class="logo" src="../src/assets/pethome64.png" alt="pethome" >
+                <h1>PETHOME</h1>
+            </div>
+            <nav>
+                <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" > Home </button>
+                <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" > Pets </button>
+                <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" > Sign Out </button>
+                <button class="btn btn-primary btn-lg btn-block" v-if="!is_auth" v-on:click="loadLogIn" > Login </button>
+                <button class="btn btn-primary btn-lg btn-block" v-if="!is_auth" v-on:click="loadSignUp" > Sign Up </button>
+            </nav>
         </header>
+
         <main>
+            <router-view
+            v-on:completedLogIn="completedLogin"
+            v-on:completedSignUp="completedSignUp">
+            </router-view>
         </main>
+
         <footer class="footer">
             <span>Developed by Group 6</span>
             <div class="media">
@@ -24,26 +39,38 @@
 </template>
 
 <script>
-    export default
-        {
-            name: 'App'
-            ,
-            data
-                : function () {
-                },
-            methods:
-            {
+    export default {
+        name: 'App',
+        data: function () {
+            return {
+                is_auth: false
+            }
+        },
+        components: {
+        },
+        methods: {
+            verifyAuth: function () {
+                if (this.is_auth == false)
+                    this.$router.push({ name: "login" })
             },
-            created
-                : function () {
-                }
+            loadLogIn: function () {
+                this.$router.push({ name: "login" })
+            },
+            loadSignUp: function () {
+                this.$router.push({ name: "signup" })
+            },
+            completedLogIn: function (data) { },
+            completedSignUp: function (data) { },
+        },
+        created: function () {
+            this.verifyAuth()
         }
+    }
 </script>
 
 <style>
     body {
         margin:0 0 0 0;
-        
     }
     .header {
         margin:0;
@@ -57,7 +84,10 @@
         color: #fff;
         display: flex;
         align-items: center;
-        box-shadow: 3px 3px 5px #999;
+        justify-content: space-between;
+        box-shadow: 0 3px 3px 0px #999;
+        margin-bottom: 5px;
+        
     }
     .header h1 {
         margin-top:2rem;
@@ -68,7 +98,19 @@
     .header img {
         margin-left: 2rem;
     }
-    main{
+    .header .logo {
+        display: flex;
+        align-items: center;
+    }
+    .header .btn {
+        margin: 0 2rem;
+        background-color: #fff;
+        color: #4776E6;
+        border: none;
+          box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+
+    }
+    main {
         min-height: calc(100vh - 8.28rem);
     }
     .footer {
@@ -86,19 +128,19 @@
         box-shadow: 1px 3px 3px 5px #999;
         text-align: center;
     }
-    .footer a>i{
+    .footer a>i {
         color: #fff;
         }
     .footer a>i:hover{
         transform: translateY(-1px) scale(1.05);
     }
-    .media i{
-        margin: 0 1rem;
+    .media i {
+        margin-left:  2rem;
     }
-    .footer span{
+    .footer span {
         margin-left: 2rem;
     }
-    .footer .media{
+    .footer .media {
         margin-right: 2rem;
     }
 </style>
