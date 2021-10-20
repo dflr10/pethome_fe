@@ -1,6 +1,6 @@
 <template>
     <div class="hero">
-        <img src="../src/assets/hero.jpg" alt="Pethome hero image">
+        <img src="/src/assets/hero.jpg" alt="Pethome hero image">
         <h2>¡Bienvenido <span> {{username}} </span>!</h2>
         <p>Keeping track of your foundation pets has never been easier and faster.</p>
     </div>
@@ -19,7 +19,7 @@
 <style scoped>
     .hero{
         margin-top: 2rem;
-        background-image: url("../src/assets/hero.jpg");
+        background-image: url("/src/assets/hero.jpg");
         background-size: cover;
         background-position: center;
         min-height: 70vh;

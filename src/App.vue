@@ -6,9 +6,9 @@
                 <h1>PETHOME</h1>
             </div>
             <nav>
-                <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" > Home </button>
+                <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" v-on:click="loadHome"> Home </button>
                 <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" > Pets </button>
-                <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" > Sign Out </button>
+                <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" v-on:click="logOut"> Sign Out </button>
                 <button class="btn btn-primary btn-lg btn-block" v-if="!is_auth" v-on:click="loadLogIn" > Login </button>
                 <button class="btn btn-primary btn-lg btn-block" v-if="!is_auth" v-on:click="loadSignUp" > Sign Up </button>
             </nav>
@@ -17,7 +17,8 @@
         <main>
             <router-view
             v-on:completedLogIn="completedLogin"
-            v-on:completedSignUp="completedSignUp">
+            v-on:completedSignUp="completedSignUp"
+            v-on:logOut="logOut">
             </router-view>
         </main>
 
@@ -50,14 +51,25 @@
         },
         methods: {
             verifyAuth: function () {
+                this.is_auth = localStorage.getItem("isAuth") || false;
                 if (this.is_auth == false)
-                    this.$router.push({ name: "login" })
+                    this.$router.push({ name: "login" });
+                else
+                    this.$router.push({ name: "home" });
             },
             loadLogIn: function () {
                 this.$router.push({ name: "login" })
             },
             loadSignUp: function () {
                 this.$router.push({ name: "signup" })
+            },
+            loadHome: function() {
+            this.$router.push({ name: "home" });
+            },
+            logOut: function () {
+            localStorage.clear();
+            alert("The session ended");
+            this.verifyAuth();
             },
             completedLogIn: function(data) {
                 localStorage.setItem("isAuth", true);
