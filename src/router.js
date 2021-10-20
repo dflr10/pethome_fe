@@ -1,13 +1,9 @@
-//importar elementos
-
 import { createRouter, createWebHistory } from "vue-router";
 import App from "./App.vue";
 
 import Login from "./components/Login.vue";
 import SignUp from "./components/SignUp.vue";
 import Home from "./components/Home.vue";
-
-//creacion del bloque ruta
 
 const routes = [
   {
