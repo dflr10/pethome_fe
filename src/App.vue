@@ -59,8 +59,18 @@
             loadSignUp: function () {
                 this.$router.push({ name: "signup" })
             },
-            completedLogIn: function (data) { },
-            completedSignUp: function (data) { },
+            completedLogIn: function(data) {
+                localStorage.setItem("isAuth", true);
+                localStorage.setItem("username", data.username);
+                localStorage.setItem("token_access", data.token_access);
+                localStorage.setItem("token_refresh", data.token_refresh);
+                alert("Successful authentication");
+                this.verifyAuth();
+            },
+            completedSignUp: function(data) {
+                alert("Successful registration");
+                this.completedLogIn(data);
+            },
         },
         created: function () {
             this.verifyAuth()

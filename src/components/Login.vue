@@ -15,7 +15,7 @@
                             <button class="btn btn-primary btn-lg btn-block" type="submit">Login
                             </button>
                             <hr class="my-4">
-                            <!-- <p class="text-center text-muted mt-5 mb-0">Don't have an account? <a href="/signup" class="fw-bold text-body"><u>Sign up here</u></a></p> -->
+                            <p class="text-center text-muted mt-5 mb-0">Don't have an account? <a href="http://localhost:8080/user/signup" class="fw-bold text-body"><u>Sign up here</u></a></p>
                         </form>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                     })
                     .catch((error) => {
                         if (error.response.status == "401")
-                            alert("ERROR 401: Credenciales Incorrectas.");
+                            alert("ERROR 401: Wrong credentials.");
                     });
             }
         }
@@ -75,4 +75,4 @@
         box-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.1);
         width: 100%;
     }
-</style> 
+</style>

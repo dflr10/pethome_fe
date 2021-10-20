@@ -38,7 +38,7 @@
                                         <button type="button"
                                             class="btn btn-primary btn-block btn-lg gradient-custom-4">Register</button>
                                     </div>
-                                    <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="/login" class="fw-bold text-body">
+                                    <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="http://localhost:8080/user/login" class="fw-bold text-body">
                                     <u>Login here</u></a></p>
                                 </form>
                             </div>
@@ -84,7 +84,7 @@
                     .catch((error) => {
                         console.log(error)
 
-                        alert("ERROR: Fallo en el registro.");
+                        alert("ERROR: Registration error.");
                     });
             }
         }
