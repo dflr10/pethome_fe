@@ -7,7 +7,7 @@
             </div>
             <nav>
                 <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" v-on:click="loadHome"> Home </button>
-                <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" > Pets </button>
+                <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" v-on:click="loadPet"> Pets </button>
                 <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" v-on:click="logOut"> Sign Out </button>
                 <button class="btn btn-primary btn-lg btn-block" v-if="!is_auth" v-on:click="loadLogIn" > Login </button>
                 <button class="btn btn-primary btn-lg btn-block" v-if="!is_auth" v-on:click="loadSignUp" > Sign Up </button>
@@ -16,7 +16,7 @@
 
         <main>
             <router-view
-            v-on:completedLogIn="completedLogin"
+            v-on:completedLogIn="completedLogIn"
             v-on:completedSignUp="completedSignUp"
             v-on:logOut="logOut">
             </router-view>
@@ -52,10 +52,11 @@
         methods: {
             verifyAuth: function () {
                 this.is_auth = localStorage.getItem("isAuth") || false;
-                if (this.is_auth == false)
+                if (this.is_auth == false){
                     this.$router.push({ name: "login" });
-                else
+                }else{
                     this.$router.push({ name: "home" });
+                }
             },
             loadLogIn: function () {
                 this.$router.push({ name: "login" })
@@ -66,12 +67,16 @@
             loadHome: function() {
             this.$router.push({ name: "home" });
             },
+            loadPet: function () {
+                this.$router.push({ name: "pet" });
+            },
             logOut: function () {
             localStorage.clear();
             alert("The session ended");
             this.verifyAuth();
             },
             completedLogIn: function(data) {
+                console.log(data);
                 localStorage.setItem("isAuth", true);
                 localStorage.setItem("username", data.username);
                 localStorage.setItem("token_access", data.token_access);
@@ -80,12 +85,11 @@
                 this.verifyAuth();
             },
             completedSignUp: function(data) {
-                alert("Successful registration");
                 this.completedLogIn(data);
             },
         },
         created: function () {
-            this.verifyAuth()
+            this.verifyAuth();
         }
     }
 </script>
@@ -95,13 +99,16 @@
         margin:0 0 0 0;
     }
     .header {
+        position: sticky;
+        top: 0;
+        z-index: 1;
         margin:0;
         padding:0;
         width: 100%;
         height: 10vh;
-        min-height: 100px;
+        min-height: 90px;
         background: #4776E6;
-        background: -webkit-linear-gradient(to right, #8E54E9, #4776E6); 
+        background: -webkit-linear-gradient(to right, #8E54E9, #4776E6);
         background: linear-gradient(to right, #8E54E9, #4776E6);
         color: #fff;
         display: flex;
@@ -109,7 +116,6 @@
         justify-content: space-between;
         box-shadow: 0 3px 3px 0px #999;
         margin-bottom: 5px;
-        
     }
     .header h1 {
         margin-top:2rem;
@@ -133,7 +139,7 @@
 
     }
     main {
-        min-height: calc(100vh - 8.28rem);
+        min-height: calc(100vh - 7.95rem);
     }
     .footer {
         margin:0;

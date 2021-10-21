@@ -35,7 +35,7 @@
                                         </label>
                                     </div>
                                     <div class="d-flex justify-content-center">
-                                        <button type="button"
+                                        <button type="submit"
                                             class="btn btn-primary btn-block btn-lg gradient-custom-4">Register</button>
                                     </div>
                                     <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="http://localhost:8080/user/login" class="fw-bold text-body">
@@ -77,13 +77,11 @@
                             token_access: result.data.access,
                             token_refresh: result.data.refresh,
                         }
-
-                        this.$emit('completedSignUp', dataSignUp)
-
+                        this.$emit('completedSignUp', dataSignUp);
+                        console.log(result.data);
                     })
                     .catch((error) => {
                         console.log(error)
-
                         alert("ERROR: Registration error.");
                     });
             }
