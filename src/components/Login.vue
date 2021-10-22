@@ -1,5 +1,5 @@
 <template>
-    <section style="background-color: #fafafa">
+    <section style="background-color: #f6fbfe">
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -50,7 +50,6 @@
                             token_refresh: result.data.refresh,
                         }
                         this.$emit("completedLogIn", dataLogIn);
-                        console.log(result.data);
                     })
                     .catch((error) => {
                         if (error.response.status == "401")

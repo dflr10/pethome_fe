@@ -1,6 +1,6 @@
 <template>
     <section class="vh-70 bg-image"
-        style="background-color:#fafafa;">
+        style="background-color:#f6fbfe;">
         <div class="mask d-flex align-items-center h-100 gradient-custom-3">
             <div class="container h-100">
                 <div class="row d-flex justify-content-center align-items-center h-100">

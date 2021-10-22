@@ -1,7 +1,8 @@
 <template>
+    <img class="loading" v-if="!loaded" src="../assets/loading.svg" alt="loading">
     <div v-if="loaded" class="grid-fluid container">
         <div v-for="pet in pets" v-bind:key="pet.id_pet"  class="card" style="width: 18rem;">
-            <img src="https://placeimg.com/200/200/animals" class="card-img-top" alt="pet image">
+            <img src="../assets/noImage.png" class="card-img-top" alt="pet image">
             <div class="card-body">
                 <h5 class="name card-title"><strong>{{pet.name}}</strong></h5>
                 <p class="card-text">{{pet.description}}.</p>
@@ -56,9 +57,11 @@
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         grid-gap: 1rem;
         grid-auto-rows: minmax(100px, auto);
+        align-self: center;
+        
     }
     .card {
-        margin: 2rem;
+        margin: 2rem auto;
         border:none;
         border-radius: 8px;
         box-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.1);
@@ -79,5 +82,10 @@
         border: none;
         background: transparent;
     }
+    .loading{
+        display:block;
+        margin: auto;
+        padding-top: 12rem;
 
+    }
 </style>

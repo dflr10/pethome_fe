@@ -8,7 +8,7 @@
             <nav>
                 <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" v-on:click="loadHome"> Home </button>
                 <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" v-on:click="loadPet"> Pets </button>
-                <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" v-on:click="logOut"> Sign Out </button>
+                <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" v-on:click="logOut"> Log Out </button>
                 <button class="btn btn-primary btn-lg btn-block" v-if="!is_auth" v-on:click="loadLogIn" > Login </button>
                 <button class="btn btn-primary btn-lg btn-block" v-if="!is_auth" v-on:click="loadSignUp" > Sign Up </button>
             </nav>
@@ -25,13 +25,16 @@
         <footer class="footer">
             <span>Developed by Group 6</span>
             <div class="media">
-                <a href="#">
+                <a href="https://twitter.com/dflr10">
                     <i class="fab fa-twitter"></i>
                 </a>
-                <a href="#">
+                <a href="https://github.com/dflr10">
                     <i class="fab fa-github"></i>
                 </a>
-                <a href="#">
+                <a href="https://www.linkedin.com/in/daniel-felipe-lozada-ramirez/">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="mailto:felipe_lozada04102@elpoli.edu.co">
                     <i class="far fa-envelope"></i>
                 </a>
             </div>
@@ -99,9 +102,9 @@
         margin:0 0 0 0;
     }
     .header {
-        position: sticky;
+        /*position: sticky;
         top: 0;
-        z-index: 1;
+        z-index: 1;*/
         margin:0;
         padding:0;
         width: 100%;
@@ -140,6 +143,8 @@
     }
     main {
         min-height: calc(100vh - 7.95rem);
+        background-color:#f6fbfe;
+
     }
     .footer {
         margin:0;
@@ -153,7 +158,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        box-shadow: 1px 3px 3px 5px #999;
+        /* box-shadow: 1px 3px 3px 5px #999; */
         text-align: center;
     }
     .footer a>i {
