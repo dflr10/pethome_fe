@@ -75,7 +75,7 @@
             },
             logOut: function () {
             localStorage.clear();
-            alert("The session ended");
+            //alert("The session ended");
             this.verifyAuth();
             },
             completedLogIn: function(data) {
@@ -84,7 +84,7 @@
                 localStorage.setItem("username", data.username);
                 localStorage.setItem("token_access", data.token_access);
                 localStorage.setItem("token_refresh", data.token_refresh);
-                alert("Successful authentication");
+                //alert("Successful authentication");
                 this.verifyAuth();
             },
             completedSignUp: function(data) {
@@ -138,7 +138,7 @@
         background-color: #fff;
         color: #4776E6;
         border: none;
-          box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
 
     }
     main {
