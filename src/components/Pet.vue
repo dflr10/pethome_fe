@@ -2,9 +2,11 @@
     <img class="loading" v-if="!loaded" src="../assets/loading.svg" alt="loading">
     <button v-if="loaded"  type="button" class="btn btn-add btn-primary float-left" data-bs-toggle="modal" data-bs-target="#addModal"
     v-on:click="addPet">Add new pet</button>
+    <input class="form-control filter" v-if="loaded" v-model="specieFilter" v-on:keyup="filterPet" placeholder="Filter by specie.">
+    <input class="form-control filter" v-if="loaded" v-model="avaliableFilter" v-on:keyup="filterPet" placeholder="Filter by avaliables.">
     <div v-if="loaded" class="grid-fluid container">
         <div v-for="pet in pets" v-bind:key="pet.id_pet"  class="card" style="width: 18rem;">
-            <img src="../assets/noImage.png" class="card-img-top" alt="pet image">
+            <img :src='imagePath+pet.image' class="card-img-top" alt="Pet image"/>
             <div class="card-body">
                 <h5 class="name card-title"><strong>{{pet.name}}</strong></h5>
                 <p class="card-text">{{pet.description}}.</p>
@@ -32,48 +34,54 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="input-group">
-                        <form id="addForm" method="POST" action="<%= BASE_URL %>/pets/add">
-                            <div class="form-group mb-3">
-                                <input type="text" class="id" v-model="id_pet">
-                                <div class="item">
-                                    <span class="input-group-text">Pet name</span>
-                                    <input type="text" class="form-control" v-model="name" aria-required="true" placeholder="Name">
+                    <div class="d-flex flex-row db-highlight mb-3">
+                        <div class="input-group">
+                            <form id="addForm" method="POST" action="<%= BASE_URL %>/pets/add">
+                                <div class="form-group mb-3">
+                                    <input type="text" class="id" v-model="id_pet">
+                                    <div class="item">
+                                        <span class="input-group-text">Pet name</span>
+                                        <input type="text" class="form-control" v-model="name" aria-required="true" placeholder="Name">
+                                    </div>
+                                    <div class="item">
+                                        <span class="input-group-text">Description</span>
+                                        <textarea type="text" class="form-control" v-model="description" aria-required="true" placeholder="Description"></textarea>
+                                    </div>
+                                    <div class="item">
+                                        <span class="input-group-text">Gender</span>
+                                        <input type="text" class="form-control" v-model="gender" aria-required="true" placeholder="Gender">
+                                    </div>
+                                    <div class="item">
+                                        <span class="input-group-text">Specie</span>
+                                        <input type="text" class="form-control" v-model="specie" aria-required="true" placeholder="Specie">
+                                    </div>
+                                    <div class="item">
+                                        <span class="input-group-text">Breed</span>
+                                        <input type="text" class="form-control" v-model="breed" aria-required="true" placeholder="Breed">
+                                    </div>
+                                    <div class="item">
+                                        <span class="input-group-text">Birthday</span>
+                                        <input type="date" class="form-control" v-model="bday_aprox" aria-required="true" placeholder="Birthday">
+                                    </div>
+                                    <div class="item">
+                                        <span class="input-group-text">Date reg</span>
+                                        <input v-if="id_pet!=0"  type="date" class="form-control" v-model="date_register" aria-required="true" placeholder="Date Register" readonly>
+                                        <input v-if="id_pet==0" type="date" class="form-control" v-model="date_register" aria-required="true" placeholder="Date Register" readonly>
+                                    </div>
+                                    <div class="item change">
+                                        <span class="input-group-text">Avaliable</span>
+                                        <input type="text" class="form-control aval" v-model="avaliable" aria-required="true" placeholder="Avaliable" readonly>
+                                        <button type="button" v-if="id_pet!=0" v-on:click="adoptPet" class="btn btn-change btn-primary">Change</button>
+                                    </div>
                                 </div>
-                                <div class="item">
-                                    <span class="input-group-text">Description</span>
-                                    <textarea type="text" class="form-control" v-model="description" aria-required="true" placeholder="Description"></textarea>
-                                </div>
-                                <div class="item">
-                                    <span class="input-group-text">Gender</span>
-                                    <input type="text" class="form-control" v-model="gender" aria-required="true" placeholder="Gender">
-                                </div>
-                                <div class="item">
-                                    <span class="input-group-text">Specie</span>
-                                    <input type="text" class="form-control" v-model="specie" aria-required="true" placeholder="Specie">
-                                </div>
-                                <div class="item">
-                                    <span class="input-group-text">Breed</span>
-                                    <input type="text" class="form-control" v-model="breed" aria-required="true" placeholder="Breed">
-                                </div>
-                                <div class="item">
-                                    <span class="input-group-text">Birthday</span>
-                                    <input type="date" class="form-control" v-model="bday_aprox" aria-required="true" placeholder="Birthday">
-                                </div>
-                                <div class="item">
-                                    <span class="input-group-text">Date reg</span>
-                                    <input v-if="id_pet!=0"  type="date" class="form-control" v-model="date_register" aria-required="true" placeholder="Date Register" readonly>
-                                    <input v-if="id_pet==0" type="date" class="form-control" v-model="date_register" aria-required="true" placeholder="Date Register" readonly>
-                                </div>
-                                <div class="item change">
-                                    <span class="input-group-text">Avaliable</span>
-                                    <input type="text" class="form-control aval" v-model="avaliable" aria-required="true" placeholder="Avaliable" readonly>
-                                    <button type="button" v-if="id_pet!=0" v-on:click="adoptPet" class="btn btn-change btn-primary">Change</button>
-                                </div>
-                            </div>
-                            <button type="button" v-if="id_pet==0" v-on:click="createPet" class="btn btn-add-new btn-primary">Add</button>
-                            <button type="button" v-if="id_pet!=0" v-on:click="updatePet" class="btn btn-update btn-primary">Update</button>
-                        </form>
+                                <button type="button" v-if="id_pet==0" v-on:click="createPet" class="btn btn-add-new btn-primary">Add</button>
+                                <button type="button" v-if="id_pet!=0" v-on:click="updatePet" class="btn btn-update btn-primary">Update</button>
+                            </form>
+                        </div>
+                        <div class="p-2 w-30 bd-highlight imageModal">
+                            <img :src='imagePath + image' alt="Pet image"/>
+                                <input type="file"  name="image" id="image" class="inputfile m-2" accept="image/*" @change="uploadImage"/>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -90,6 +98,9 @@
                 pets: [],
                 loaded: false,
                 modalTitle:"",
+                avaliableFilter: "",
+                specieFilter: "",
+                petsWithoutFilter: [],
                 id_pet: 0,
                 name: "",
                 specie: "",
@@ -99,7 +110,8 @@
                 date_register:"",
                 avaliable: false,
                 description: "",
-                img: "",
+                image: "noImage.png",
+                imagePath: "https://pethomemintic-be.herokuapp.com/images/",
             }
         },
         methods: {
@@ -107,7 +119,9 @@
                 axios.get('https://pethomemintic-be.herokuapp.com/pet/')
                     .then(response => {
                         this.pets = response.data;
+                        this.petsWithoutFilter = response.data;
                         this.loaded = true;
+                        this.pets.reverse();
                     })
                     .catch(error => {
                         console.log(error);
@@ -130,7 +144,7 @@
                 }
                 this.avaliable = true;
                 this.description = "";
-                this.img = "";
+                this.image = "noImage.png";
             },
             editPet: function (pet) {
                 this.modalTitle = "Edit pet";
@@ -143,7 +157,7 @@
                 this.date_register = pet.date_register;
                 this.avaliable = pet.avaliable;
                 this.description = pet.description;
-                this.img = pet.img;
+                this.image = pet.image;
             },
             adoptPet: function () {
                 this.avaliable = !this.avaliable;
@@ -158,7 +172,7 @@
                     date_register: this.date_register,
                     avaliable: this.avaliable,
                     description: this.description,
-                    img: this.img,
+                    image: this.image,
             },)
                 .then(response => {
                     this.getPets();
@@ -178,7 +192,7 @@
                     date_register: this.date_register,
                     avaliable: this.avaliable,
                     description: this.description,
-                    img: this.img,
+                    image: this.image,
             },)
                 .then(response => {
                     this.getPets();
@@ -187,11 +201,31 @@
                     console.log(error);
                 })
             },
+            uploadImage: function(event){
+                let formData = new FormData();
+                formData.append('file', event.target.files[0]);
+                axios.post('https://pethomemintic-be.herokuapp.com/pet/savefile/', formData)
+                    .then(response => {
+                        this.image = response.data;
+                    }).catch(error => {
+                        console.log(error);
+                    })
+            },
+            filterPet: function (){
+                let specieFilter = this.specieFilter;
+                let avaliableFilter = this.avaliableFilter;
+                this.pets=this.petsWithoutFilter.filter(
+                    function (el){
+                        return el.specie.toString().toLowerCase().includes(specieFilter.toString().trim().toLowerCase())
+                        && el.avaliable.toString().toLowerCase().includes(avaliableFilter.toString().trim().toLowerCase());
+
+                    }
+                );
+            },
             deletePet: function (id) {
                 if(!confirm("Are you sure you want to delete this pet?")){
                     return;
                 }
-                        console.log(id);
                 axios.delete('https://pethomemintic-be.herokuapp.com/pet/' + id +'/')
                     .then(response => {
                         this.getPets();
@@ -235,7 +269,10 @@
         color: rgb(89, 92, 110);
     }
     img{
+        width: 100%;
+        height: auto;
         border-radius: 8px 8px 0 0;
+        overflow: hidden;
     }
     .name {
         color: #4776E6;
@@ -244,7 +281,8 @@
         border: none;
         background: transparent;
     }
-    .loading{
+    .loading {
+        width: 10%;
         display:block;
         margin: auto;
         padding-top: 12rem;
@@ -252,7 +290,6 @@
     .btn-add, .btn-update, .btn-change, .btn-add-new {
         background-color: #8E54E9;
         margin: 2rem;
-        margin-top: 2.5rem;
         box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
     }
     .btn-update {
@@ -268,11 +305,10 @@
     }
     .change {
         display: flex;
-
     }
     .btn-change{
         margin: 0;
-        width: 20%;
+        width: 25%;
     }
     .form-control {
         margin: 0.5rem;
@@ -288,5 +324,18 @@
     }
     .input-group-text {
         width: 55%;
+    }
+    .input-group {
+        display: flex;
+    }
+    .inputfile {
+        padding: 0.5rem;
+        background-color: rgb(240, 250, 246);
+        width: 100%;
+        border-radius: 8px;
+    }
+    .filter {
+        display: inline-block;
+        width: 20%;
     }
 </style>
