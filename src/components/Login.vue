@@ -15,7 +15,7 @@
                             <button class="btn btn-primary btn-lg btn-block" type="submit" > Login
                             </button>
                             <hr class="my-4">
-                            <p class="text-center text-muted mt-5 mb-0">Don't have an account? <a href="http://localhost:8080/user/signup" class="fw-bold text-body"><u>Sign up here</u></a></p>
+                            <!-- <p class="text-center text-muted mt-5 mb-0">Don't have an account? <a href="http://localhost:8080/user/signup" class="fw-bold text-body"><u>Sign up here</u></a></p> -->
                         </form>
                     </div>
                 </div>

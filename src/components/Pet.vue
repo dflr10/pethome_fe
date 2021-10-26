@@ -2,8 +2,17 @@
     <img class="loading" v-if="!loaded" src="../assets/loading.svg" alt="loading">
     <button v-if="loaded"  type="button" class="btn btn-add btn-primary float-left" data-bs-toggle="modal" data-bs-target="#addModal"
     v-on:click="addPet">Add new pet</button>
-    <input class="form-control filter" v-if="loaded" v-model="specieFilter" v-on:keyup="filterPet" placeholder="Filter by specie.">
-    <input class="form-control filter" v-if="loaded" v-model="avaliableFilter" v-on:keyup="filterPet" placeholder="Filter by avaliables.">
+    <input class="form-control filter" v-if="loaded" v-model="nameFilter" v-on:keyup="filterPet" placeholder="Filter by name.">
+    <select name="select" v-if="loaded" class="form-control filter" v-model="specieFilter" @change="filterPet">
+        <option value="">Filter by specie</option>
+        <option value="dog" selected >Dogs</option>
+        <option value="cat" >Cats</option>
+    </select>
+    <select name="select" v-if="loaded" class="form-control filter" v-model="avaliableFilter" @change="filterPet">
+        <option value="">Filter by avaliables</option>
+        <option value="true" selected >Yes</option>
+        <option value="false" >No</option>
+    </select>
     <div v-if="loaded" class="grid-fluid container">
         <div v-for="pet in pets" v-bind:key="pet.id_pet"  class="card" style="width: 18rem;">
             <img :src='imagePath+pet.image' class="card-img-top" alt="Pet image"/>
@@ -100,6 +109,7 @@
                 modalTitle:"",
                 avaliableFilter: "",
                 specieFilter: "",
+                nameFilter: "",
                 petsWithoutFilter: [],
                 id_pet: 0,
                 name: "",
@@ -207,6 +217,7 @@
                 axios.post('https://pethomemintic-be.herokuapp.com/pet/savefile/', formData)
                     .then(response => {
                         this.image = response.data;
+                        this.getPets();
                     }).catch(error => {
                         console.log(error);
                     })
@@ -214,10 +225,12 @@
             filterPet: function (){
                 let specieFilter = this.specieFilter;
                 let avaliableFilter = this.avaliableFilter;
+                let nameFilter = this.nameFilter;
                 this.pets=this.petsWithoutFilter.filter(
                     function (el){
                         return el.specie.toString().toLowerCase().includes(specieFilter.toString().trim().toLowerCase())
-                        && el.avaliable.toString().toLowerCase().includes(avaliableFilter.toString().trim().toLowerCase());
+                        && el.avaliable.toString().toLowerCase().includes(avaliableFilter.toString().trim().toLowerCase())
+                        && el.name.toString().toLowerCase().includes(nameFilter.toString().trim().toLowerCase());
 
                     }
                 );
@@ -282,7 +295,7 @@
         background: transparent;
     }
     .loading {
-        width: 10%;
+        width: 5%;
         display:block;
         margin: auto;
         padding-top: 12rem;
@@ -337,5 +350,7 @@
     .filter {
         display: inline-block;
         width: 20%;
+        color: rgb(98, 98, 107);
+        
     }
 </style>
