@@ -168,7 +168,6 @@
                 this.avaliable = pet.avaliable;
                 this.description = pet.description;
                 this.image = pet.image;
-                console.log(this.image);
             },
             adoptPet: function () {
                 this.avaliable = !this.avaliable;
