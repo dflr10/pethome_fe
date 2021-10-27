@@ -168,6 +168,7 @@
                 this.avaliable = pet.avaliable;
                 this.description = pet.description;
                 this.image = pet.image;
+                console.log(this.image);
             },
             adoptPet: function () {
                 this.avaliable = !this.avaliable;
@@ -217,7 +218,7 @@
                 axios.post('https://pethomemintic-be.herokuapp.com/pet/savefile/', formData)
                     .then(response => {
                         this.image = response.data;
-                        this.getPets();
+                        /* this.getPets(); */
                     }).catch(error => {
                         console.log(error);
                     })
