@@ -58,7 +58,7 @@
                                     </div>
                                     <div class="item">
                                         <span class="input-group-text form-control select-gender">Gender</span>
-                                            <select name="select" v-if="loaded" class="form-control gender" v-model="gender">
+                                            <select name="select" v-if="loaded" class="form-control gender" v-model="gender" required>
                                                 <option value="">Select Gender</option>
                                                 <option value="Male" selected >Male</option>
                                                 <option value="Female" >Female</option>
@@ -66,7 +66,7 @@
                                     </div>
                                     <div class="item">
                                         <span class="input-group-text form-control select-gender">Specie</span>
-                                            <select name="select" v-if="loaded" class="form-control gender" v-model="specie">
+                                            <select name="select" v-if="loaded" class="form-control gender" v-model="specie" required>
                                                 <option value="">Select Specie</option>
                                                 <option value="Dog" selected >Dog</option>
                                                 <option value="Cat" >Cat</option>
@@ -324,6 +324,8 @@
     .btn-add-new {
         width: 100%;
         margin:1rem 0;
+        border: none;
+        box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
     }
     .aval {
         width: 68%;
@@ -349,6 +351,8 @@
     }
     .input-group-text {
         width: 55%;
+        border: none;
+        box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
     }
     .input-group {
         display: flex;
@@ -363,12 +367,36 @@
         display: inline-block;
         width: 20%;
         color: rgb(98, 98, 107);
-        
+        border: none;
+        box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
     }
     .select-gender {
         width: 35%;
     }
     .item .gender {
         width: 100%;
+    }
+    select, input, textarea {
+        border: none;
+        box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
+    }
+    .imageModal img{
+        border: none;
+        border-radius: 8px;
+        box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
+    }
+    .modal-body  {
+        background-color:#f6fbfe;
+        border-radius: 8px;
+    }
+    .modal-content {
+        border-radius: 8px;
+        box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
+    }
+    .modal-header {
+        border: none;
+        box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
+        margin-bottom: 0.3rem;
+        border-radius: 8px;
     }
 </style>
