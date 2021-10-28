@@ -121,6 +121,7 @@
                 avaliable: false,
                 description: "",
                 image: "noImage.png",
+                user:0,
                 imagePath: "https://pethomemintic-be.herokuapp.com/images/",
             }
         },
@@ -129,10 +130,11 @@
                 axios.get('https://pethomemintic-be.herokuapp.com/pet/')
                     .then(response => {
                         this.pets = response.data;
-                        this.petsWithoutFilter = response.data;
+                        this.user = parseInt(localStorage.getItem('idUser'));
+                        this.petsWithoutFilter = this.pets.filter(pet => pet.user === this.user);
+                        this.pets=this.petsWithoutFilter;
                         this.loaded = true;
-                        this.pets.reverse();
-                    })
+                        })
                     .catch(error => {
                         console.log(error);
                     })
@@ -168,6 +170,7 @@
                 this.avaliable = pet.avaliable;
                 this.description = pet.description;
                 this.image = pet.image;
+                this.user = pet.user;
             },
             adoptPet: function () {
                 this.avaliable = !this.avaliable;
@@ -183,6 +186,7 @@
                     avaliable: this.avaliable,
                     description: this.description,
                     image: this.image,
+                    user: this.user
             },)
                 .then(response => {
                     this.getPets();
@@ -203,6 +207,7 @@
                     avaliable: this.avaliable,
                     description: this.description,
                     image: this.image,
+                    user: this.user
             },)
                 .then(response => {
                     this.getPets();
@@ -217,7 +222,6 @@
                 axios.post('https://pethomemintic-be.herokuapp.com/pet/savefile/', formData)
                     .then(response => {
                         this.image = response.data;
-                        /* this.getPets(); */
                     }).catch(error => {
                         console.log(error);
                     })

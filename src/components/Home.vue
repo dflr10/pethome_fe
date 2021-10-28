@@ -1,18 +1,59 @@
 <template>
         <div class="hero container">
-            <h2> Welcome <span> {{username}} </span> !</h2>
+            <h2> Welcome <span> {{name}} </span> !</h2>
             <p>Keeping track of your foundation pets has never been easier and faster.</p>
         </div>
 </template>
 
 <script>
+    import jwt_decode from "jwt-decode";
+    import axios from 'axios';
     export default {
         name: "home",
         data: function () {
             return {
-                username: localStorage.getItem('username') || ""
+                id_user:0,
+                name: "",
+                email: "",
+                username: localStorage.getItem('username') || "",
+                loaded: false,
             }
-        }
+        },
+        methods: {
+            getData: async function () {
+                if (localStorage.getItem("token_access") === null || localStorage.getItem("token_refresh") === null) {
+                    this.$emit('logOut');
+                    return;
+                }
+                await this.verifyToken();
+                let token = localStorage.getItem("token_access");
+                let userId = jwt_decode(token).user_id.toString();
+                localStorage.setItem("idUser",userId);
+                axios.get(`https://pethomemintic-be.herokuapp.com/user/${userId}/`, { headers: { 'Authorization': `Bearer ${token}` } })
+                    .then((result) => {
+                        this.id_user = result.data.id_user;
+                        this.name = result.data.name;
+                        this.email = result.data.email;
+                        this.loaded = true;
+                    })
+                    .catch(() => {
+                        this.$emit('logOut');
+                    });
+            },
+            verifyToken: function () {
+                return axios.post("https://pethomemintic-be.herokuapp.com/refresh/", { refresh: localStorage.getItem("token_refresh") }, { headers: {} }
+                )
+                    .then((result) => {
+                        localStorage.setItem("token_access", result.data.access);
+                    })
+                    .catch(() => {
+                        this.$emit('logOut');
+                    });
+            }
+        },
+        created: async function () {
+            this.getData();
+        },
     }
 </script>
 
