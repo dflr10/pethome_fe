@@ -5,7 +5,7 @@
                 <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                     <div class="card shadow-2-strong" style="border-radius: 1rem;">
                         <form v-on:submit.prevent="processLogInUser" class="card-body p-5 text-center">
-                            <h3 class="mb-5">Sign in</h3>
+                            <h3 class="mb-5">Log in</h3>
                             <div class="form-outline mb-4">
                                 <input type="text" v-model="user.username" id="typeUsernameX-2" class="form-control form-control-lg" placeholder="Username"/>
                             </div>
