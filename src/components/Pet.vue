@@ -139,7 +139,7 @@
                     .then(response => {
                         this.pets = response.data;
                         this.user = parseInt(localStorage.getItem('idUser'));
-                        this.petsWithoutFilter = this.pets.filter(pet => pet.user === this.user);
+                        this.petsWithoutFilter = this.pets.filter(pet => pet.user === this.user).reverse();
                         this.pets=this.petsWithoutFilter;
                         this.loaded = true;
                         })
