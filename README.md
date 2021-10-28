@@ -1,7 +1,6 @@
-# pethome
-Pethome is a web platform with integration to PostgreSQL databases, developed with Django, Django REST Framwork and Vue.js that serves as a tool so that homes and foundations for homeless pets can have a record of all the information of these in a way easy and fast.
+![favicon2](https://user-images.githubusercontent.com/67969956/139292696-699d4b34-8fc1-4978-bd5d-e03408032263.png)  PETHOME
 
-![pethome](https://user-images.githubusercontent.com/67969956/138367613-6aba3143-e048-4fb2-9203-505d00e8bbc6.png)
+Pethome is a web platform with integration to PostgreSQL databases, developed with Django, Django REST Framwork and Vue.js that serves as a tool so that homes and foundations for homeless pets can have a record of all the information of these in a way easy and fast.
 
 
 ## Project setup
