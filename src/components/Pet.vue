@@ -59,7 +59,7 @@
                                     <div class="item">
                                         <span class="input-group-text form-control select-gender">Gender</span>
                                             <select name="select" v-if="loaded" class="form-control gender" v-model="gender">
-                                                <option value="">Select gender</option>
+                                                <option value="">Select Gender</option>
                                                 <option value="Male" selected >Male</option>
                                                 <option value="Female" >Female</option>
                                             </select>
@@ -67,7 +67,7 @@
                                     <div class="item">
                                         <span class="input-group-text form-control select-gender">Specie</span>
                                             <select name="select" v-if="loaded" class="form-control gender" v-model="specie">
-                                                <option value="">Select specie</option>
+                                                <option value="">Select Specie</option>
                                                 <option value="Dog" selected >Dog</option>
                                                 <option value="Cat" >Cat</option>
                                             </select>
