@@ -28,9 +28,9 @@
                 <a href="https://twitter.com/dflr10">
                     <i class="fab fa-twitter"></i>
                 </a>
-                <a href="https://github.com/dflr10">
+                <!-- <a href="https://github.com/dflr10">
                     <i class="fab fa-github"></i>
-                </a>
+                </a> -->
                 <a href="https://www.linkedin.com/in/daniel-felipe-lozada-ramirez/">
                     <i class="fab fa-linkedin-in"></i>
                 </a>
