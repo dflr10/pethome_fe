@@ -57,12 +57,20 @@
                                         <textarea type="text" class="form-control" v-model="description" aria-required="true" placeholder="Description"></textarea>
                                     </div>
                                     <div class="item">
-                                        <span class="input-group-text">Gender</span>
-                                        <input type="text" class="form-control" v-model="gender" aria-required="true" placeholder="Gender">
+                                        <span class="input-group-text form-control select-gender">Gender</span>
+                                            <select name="select" v-if="loaded" class="form-control gender" v-model="gender">
+                                                <option value="">Select gender</option>
+                                                <option value="Male" selected >Male</option>
+                                                <option value="Female" >Female</option>
+                                            </select>
                                     </div>
                                     <div class="item">
-                                        <span class="input-group-text">Specie</span>
-                                        <input type="text" class="form-control" v-model="specie" aria-required="true" placeholder="Specie">
+                                        <span class="input-group-text form-control select-gender">Specie</span>
+                                            <select name="select" v-if="loaded" class="form-control gender" v-model="specie">
+                                                <option value="">Select specie</option>
+                                                <option value="Dog" selected >Dog</option>
+                                                <option value="Cat" >Cat</option>
+                                            </select>
                                     </div>
                                     <div class="item">
                                         <span class="input-group-text">Breed</span>
@@ -356,5 +364,11 @@
         width: 20%;
         color: rgb(98, 98, 107);
         
+    }
+    .select-gender {
+        width: 35%;
+    }
+    .item .gender {
+        width: 100%;
     }
 </style>
