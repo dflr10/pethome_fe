@@ -15,7 +15,7 @@
                             <button class="btn btn-primary btn-lg btn-block" type="submit" > Log in
                             </button>
                             <hr class="my-4">
-                            <p class="text-center text-muted mb-0">Don't have an account? <a href="" class="fw-bold text-body" v-on:click="loadSignUp"><u>Sign up here</u></a></p>
+                            <p class="text-center text-muted mb-0">Don't have an account? <button  class="btn fw-bold text-body signup" v-on:click="loadSignUp"><u>Sign up here</u></button></p>
                         </form>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
             },
             loadSignUp: function () {
                 this.$emit("loadSignUp");
-                this.$router.push({ name: "signup" })
+                this.$router.push({ name: "signup" });
             }
         }
     }
@@ -79,8 +79,16 @@
         width: 100%;
         color: #fff;
         background-color: #8E54E9;
+
     }
     u{
         color:#4776E6;
+    }
+    .btn.signup {
+        background-color:white;
+        color:#4776E6;
+        box-shadow:none;
+        width: 35%;
+        padding: 0;
     }
 </style>
