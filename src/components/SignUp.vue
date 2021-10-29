@@ -39,8 +39,7 @@
                                             class="btn btn-primary btn-block btn-lg gradient-custom-4">Register</button>
                                     </div>
                                     <hr class="my-4">
-                                    <p class="text-center text-muted mb-0">Have already an account? <a href="https://pethomemintic-fe.herokuapp.com/user/login" class="fw-bold text-body">
-                                    <u>Login here</u></a></p>
+                                    <p class="text-center text-muted mb-0">Have already an account? <button  class="btn fw-bold text-body login" v-on:click="loadLogin"><u>Log in here</u></button></p>
                                 </form>
                             </div>
                         </div>
@@ -85,6 +84,10 @@
                         console.log(error)
                         alert("ERROR: Registration error.");
                     });
+            },
+            loadLogin: function () {
+                this.$emit("loadLogin");
+                this.$router.push({ name: "login" });
             }
         }
     }
@@ -109,5 +112,12 @@
     }
     u{
         color:#4776E6;
+    }
+    .btn.login {
+        background-color:white;
+        color:#4776E6;
+        box-shadow:none;
+        width: 25%;
+        padding: 0;
     }
 </style>
