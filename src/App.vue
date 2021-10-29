@@ -101,9 +101,9 @@
         margin:0 0 0 0;
     }
     .header {
-        /*position: sticky;
+        position: sticky;
         top: 0;
-        z-index: 1;*/
+        z-index: 1;
         margin:0;
         padding:0;
         width: 100%;
