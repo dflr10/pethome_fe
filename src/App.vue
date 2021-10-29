@@ -62,10 +62,10 @@
                 }
             },
             loadLogIn: function () {
-                this.$router.push({ name: "login" })
+                this.$router.push({ name: "login" });
             },
             loadSignUp: function () {
-                this.$router.push({ name: "signup" })
+                this.$router.push({ name: "signup" });
             },
             loadHome: function() {
             this.$router.push({ name: "home" });

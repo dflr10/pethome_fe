@@ -15,7 +15,7 @@
                             <button class="btn btn-primary btn-lg btn-block" type="submit" > Log in
                             </button>
                             <hr class="my-4">
-                            <p class="text-center text-muted mb-0">Don't have an account? <a href="https://pethomemintic-fe.herokuapp.com/user/signup" class="fw-bold text-body"><u>Sign up here</u></a></p>
+                            <p class="text-center text-muted mb-0">Don't have an account? <a href="" class="fw-bold text-body" v-on:click="loadSignUp"><u>Sign up here</u></a></p>
                         </form>
                     </div>
                 </div>
@@ -55,6 +55,10 @@
                         if (error.response.status == "401")
                             alert("ERROR 401: Wrong credentials.");
                     });
+            },
+            loadSignUp: function () {
+                this.$emit("loadSignUp");
+                this.$router.push({ name: "signup" })
             }
         }
     }
@@ -79,5 +83,4 @@
     u{
         color:#4776E6;
     }
-
 </style>
