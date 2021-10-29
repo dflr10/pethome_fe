@@ -144,6 +144,7 @@
     main {
         min-height: calc(100vh - 7.95rem);
         background-color:#f6fbfe;
+        background-color: #fff;
 
     }
     .footer {
