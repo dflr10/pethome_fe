@@ -2,7 +2,7 @@
     <img class="loading" v-if="!loaded" src="../assets/loading.svg" alt="loading">
     <button v-if="loaded"  type="button" class="btn btn-add btn-primary float-left" data-bs-toggle="modal" data-bs-target="#addModal"
     v-on:click="addPet">Add new pet</button>
-    <input class="form-control filter" v-if="loaded" v-model="nameFilter" v-on:keyup="filterPet" placeholder="Filter by name.">
+    <input class="form-control filter" v-if="loaded" v-model="nameFilter" v-on:keyup="filterPet" placeholder="Filter by name">
     <select name="select" v-if="loaded" class="form-control filter" v-model="specieFilter" @change="filterPet">
         <option value="">Filter by specie</option>
         <option value="dog" selected >Dogs</option>
