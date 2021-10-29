@@ -38,7 +38,8 @@
                                         <button type="submit"
                                             class="btn btn-primary btn-block btn-lg gradient-custom-4">Register</button>
                                     </div>
-                                    <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="http://localhost:8080/user/login" class="fw-bold text-body">
+                                    <hr class="my-4">
+                                    <p class="text-center text-muted mb-0">Have already an account? <a href="https://pethomemintic-fe.herokuapp.com/user/login" class="fw-bold text-body">
                                     <u>Login here</u></a></p>
                                 </form>
                             </div>
@@ -106,4 +107,7 @@
         width: 100%;
         color: #fff;
     }
-</style> 
+    u{
+        color:#4776E6;
+    }
+</style>
