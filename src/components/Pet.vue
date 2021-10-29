@@ -386,7 +386,7 @@
         box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
     }
     .modal-body  {
-        background-color:#f6fbfe;
+        
         border-radius: 8px;
     }
     .modal-content {
