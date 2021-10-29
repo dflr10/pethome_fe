@@ -100,7 +100,7 @@
         color:#4776E6;
     }
     .btn {
-        background-color: #4776E6;
+        background-color: #8E54E9;
         border:none;
         box-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.1);
         width: 100%;

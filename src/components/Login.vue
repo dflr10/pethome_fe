@@ -70,9 +70,11 @@
         color:#4776E6;
     }
     .btn {
-        background-color: #4776E6;
         border:none;
-        box-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.1);
+        box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
         width: 100%;
+        color: #fff;
+        background-color: #8E54E9;
     }
+
 </style>

@@ -9,7 +9,7 @@
                 <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" v-on:click="loadHome"> Home </button>
                 <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" v-on:click="loadPet"> Pets </button>
                 <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" v-on:click="logOut"> Log Out </button>
-                <button class="btn btn-primary btn-lg btn-block" v-if="!is_auth" v-on:click="loadLogIn" > Login </button>
+                <button class="btn btn-primary btn-lg btn-block" v-if="!is_auth" v-on:click="loadLogIn" > Log in </button>
                 <button class="btn btn-primary btn-lg btn-block" v-if="!is_auth" v-on:click="loadSignUp" > Sign Up </button>
             </nav>
         </header>
@@ -136,6 +136,7 @@
         margin: 0 2rem;
         background-color: #fff;
         color: #4776E6;
+        font-weight: 500;
         border: none;
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
 
@@ -176,8 +177,8 @@
         margin-right: 2rem;
     }
     .btn.btn-primary.btn-lg.btn-block:hover {
-        background-color: #8E54E9;
-        opacity: 0.9;
+        background-color: #7f3de9;
+        color: #fff;
         transition: all 0.2s ease-in-out;
     }
 </style>
