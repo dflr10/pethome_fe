@@ -399,4 +399,13 @@
         margin-bottom: 0.3rem;
         border-radius: 8px;
     }
+    .btn.btn-add.btn-primary.float-left:hover,
+    .btn.btn-add-new.btn-primary:hover,
+    .btn.btn-change.btn-primary:hover,
+    .btn.btn-update.btn-primary:hover
+    {
+        background-color: #7f3de9;
+        color: #fff;
+        transition: all 0.2s ease-in-out;
+    }
 </style>

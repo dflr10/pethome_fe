@@ -137,7 +137,7 @@
         background-color: #fff;
         color: #4776E6;
         border: none;
-        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
 
     }
     main {
@@ -174,5 +174,10 @@
     }
     .footer .media {
         margin-right: 2rem;
+    }
+    .btn.btn-primary.btn-lg.btn-block:hover {
+        background-color: #8E54E9;
+        opacity: 0.9;
+        transition: all 0.2s ease-in-out;
     }
 </style>
