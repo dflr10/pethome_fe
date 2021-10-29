@@ -14,8 +14,8 @@
         <option value="false" >No</option>
     </select>
     <div class="hero container" v-if="!pets.length > 0 && loaded">
-            <h2> Click this button </h2>
-            <p>to add your first pet!</p>
+            <h2 class="hero-title"> Click this button </h2>
+            <p class="hero-title">to add your first pet!</p>
     </div>
     <div v-if="loaded" class="grid-fluid container">
         <div v-for="pet in pets" v-bind:key="pet.id_pet"  class="card" style="width: 18rem;">
@@ -423,17 +423,13 @@
         color: #8E54E9;
         font-size: 2rem;
     }
-    .hero h2,p{
+    .hero .hero-title, .p-title{
         margin: 0 2rem;
         font-weight: bold;
         font-size: 2.5rem;
         -webkit-text-stroke: 1.5px #8E54E9;
         color: white;
     }
-    .hero  h2{
-        font-size: 3rem;
-    }
-
     .hero img {
         width: 100%;
         height: auto;
