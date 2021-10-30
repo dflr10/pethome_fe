@@ -1,6 +1,6 @@
 <template>
     <section class="vh-70 bg-image"
-        style="background-color:#f6fbfe;">
+        style="background-color:#fff;">
         <div class="mask d-flex align-items-center h-100 gradient-custom-3">
             <div class="container h-100">
                 <div class="row d-flex justify-content-center align-items-center h-100">
@@ -78,7 +78,6 @@
                             token_refresh: result.data.refresh,
                         }
                         this.$emit('completedSignUp', dataSignUp);
-                        console.log(result.data);
                     })
                     .catch((error) => {
                         console.log(error)
@@ -97,7 +96,7 @@
     .card {
         box-shadow: 3px 3px 5px #999;
         border:none;
-        box-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.2);
         margin: 4rem 0;
     }
     h3{
@@ -119,5 +118,9 @@
         box-shadow:none;
         width: 25%;
         padding: 0;
+    }
+    input {
+        border: none;
+        box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
     }
 </style>

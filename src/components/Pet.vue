@@ -13,27 +13,31 @@
         <option value="true" selected >Yes</option>
         <option value="false" >No</option>
     </select>
-    <div class="hero container" v-if="!pets.length > 0 && loaded">
-            <h2 class="hero-title"> Click this button </h2>
-            <p class="hero-title">to add your first pet!</p>
+    <div class="hero container" v-if="isPetsWithoutFilterEmpty() && loaded && isPetsEmpty()" >
+            <h2 class="hero-title"> Click on <button v-if="loaded"  type="button" class="" data-bs-toggle="modal" data-bs-target="#addModal"
+    v-on:click="addPet">Add new pet</button></h2>
+            <p class="hero-title">button to add your first pet!</p>
+    </div>
+    <div class="hero container" v-if="!isPetsWithoutFilterEmpty() && loaded && isPetsEmpty()" v-bind:class="{'no-search-results' : isPetsEmpty()}">
+            <h2 class="hero-title">No search results</h2>
     </div>
     <div v-if="loaded" class="grid-fluid container">
-        <div v-for="pet in pets" v-bind:key="pet.id_pet"  class="card" style="width: 18rem;">
-            <img :src='imagePath+pet.image' class="card-img-top" alt="Pet image"/>
-            <div class="card-body">
+        <div v-for="pet in pets" v-bind:key="pet.id_pet" class="card" style="width: 18rem;">
+            <div class="card-body top" v-bind:class="{'no-avaliable' : pet.avaliable==false}">
+                <img  :src='imagePath+pet.image' class="card-img-top " alt="Pet image"/>
                 <h5 class="name card-title"><strong>{{pet.name}}</strong></h5>
                 <p class="card-text">{{pet.description}}.</p>
-            </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item"><strong>Gender: </strong>{{pet.gender}}</li>
                 <li class="list-group-item"><strong>Specie: </strong>{{pet.specie}}</li>
                 <li class="list-group-item"><strong>Breed: </strong>{{pet.breed}}</li>
                 <li class="list-group-item"><strong>Birthday: </strong>{{pet.bday_aprox}}</li>
                 <li class="list-group-item"><strong>Date register: </strong>{{pet.date_register}}</li>
-                <li class="list-group-item"><strong>Avaliable: </strong>{{pet.avaliable}}</li>
+                <li class="list-group-item avaliable"><strong>Avaliable: </strong>{{pet.avaliable}}</li>
             </ul>
-            <div class="card-body">
-                <button type="button" class="btn btn-light  mr-1" data-bs-toggle="modal" data-bs-target="#addModal" v-on:click="editPet(pet)"><i class="fas fa-edit"></i></button>
+            </div>
+            <div id="down" class="card-body down">
+                <button type="button" class="btn btn-light  mr-1"  data-bs-toggle="modal" data-bs-target="#addModal" v-on:click="editPet(pet)"><i class="fas fa-edit"></i></button>
                 <button type="button" class="btn btn-light  mr-1" v-on:click="deletePet(pet.id_pet)"><i class="fas fa-trash-alt"></i></button>
             </div>
         </div>
@@ -262,7 +266,15 @@
                     .catch(error => {
                         console.log(error);
                     })
-            }
+            },
+            isPetsWithoutFilterEmpty: function () {
+                console.log(this.petsWithoutFilter.length);
+                return this.petsWithoutFilter.length<=0;
+            },
+            isPetsEmpty: function () {
+                console.log(this.pets.length);
+                return this.pets.length<=0;
+            },
         },
         mounted: function () {
             this.getPets();
@@ -291,6 +303,9 @@
         font-size: 1.2rem;
         color: rgb(82, 82, 100);
     }
+    li.avaliable {
+        display: none;
+    }
     li  {
         color: rgb(82, 82, 100);
     }
@@ -300,8 +315,9 @@
     img{
         width: 100%;
         height: auto;
-        border-radius: 8px 8px 0 0;
+        border-radius: 8px;
         overflow: hidden;
+        box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
     }
     .name {
         color: #4776E6;
@@ -314,7 +330,7 @@
         width: 5%;
         display:block;
         margin: auto;
-        padding-top: 12rem;
+        min-height: 80.8vh;
     }
     .btn-add, .btn-update, .btn-change, .btn-add-new {
         background-color: #8E54E9;
@@ -410,18 +426,22 @@
         background-color: #7f3de9;
         color: #fff;
         transition: all 0.2s ease-in-out;
+        transform: translateY(-0.5px) scale(1.05);
     }
     .hero{
         background-image: url("../assets/empty.jpg");
         background-size: cover;
         background-position: center;
-        min-height: 65.5vh;
+        min-height: 65.6vh;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: left;
         justify-content: center;
         color: #8E54E9;
         font-size: 2rem;
+    }
+    .hero.no-search-results {
+        background-image: url("../assets/noSearchResults.png");
     }
     .hero .hero-title, .p-title{
         margin: 0 2rem;
@@ -434,4 +454,42 @@
         width: 100%;
         height: auto;
     }
+    div .card.no-avaliable  {
+        filter: blur(2px);
+        background-color: #d7c0fb;
+    }
+    .card-title{
+        margin-top: 1rem;
+    }
+    .card-body.top.no-avaliable {
+        filter: blur(2px);
+    }
+    .btn.btn-light.mr-1{
+        background-color: #8E54E9;
+        color: #fff;
+        margin: 0 0.5rem;
+    }
+    .btn.btn-light.mr-1:hover{
+        background-color: #7f3de9;
+        color: #fff;
+        transition: all 0.2s ease-in-out;
+        transform: translateY(-0.5px) scale(1.05);
+    }
+    .hero.container button {
+        color: white;
+        border: none;
+        -webkit-text-stroke: 0px #8E54E9;
+        background-color: #8E54E9;
+        padding:0.5rem 0.9rem;
+        border-radius: 8px;
+        box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
+        font-weight: 400;
+    }
+    .hero.container button:hover {
+        background-color: #7f3de9;
+        transition: all 0.2s ease-in-out;
+        transform: translateY(-0.5px) scale(1.05);
+        cursor: pointer;
+    }
+
 </style>

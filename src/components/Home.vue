@@ -62,7 +62,7 @@
         background-image: url("../assets/hero.jpg");
         background-size: cover;
         background-position: center;
-        min-height: 80.7vh;
+        min-height: 80.8vh;
         display: flex;
         flex-direction: column;
         align-items: center;

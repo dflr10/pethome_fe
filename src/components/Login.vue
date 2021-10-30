@@ -1,5 +1,5 @@
 <template>
-    <section style="background-color: #f6fbfe">
+    <section style="background-color: #fff">
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -68,7 +68,7 @@
     .card {
         box-shadow: 3px 3px 5px #999;
         border:none;
-        box-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.2);
     }
     h3{
         color:#4776E6;
@@ -79,7 +79,6 @@
         width: 100%;
         color: #fff;
         background-color: #8E54E9;
-
     }
     u{
         color:#4776E6;
@@ -90,5 +89,9 @@
         box-shadow:none;
         width: 35%;
         padding: 0;
+    }
+    input {
+        border: none;
+        box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
     }
 </style>

@@ -142,7 +142,7 @@
 
     }
     main {
-        min-height: calc(100vh - 7.95rem);
+        min-height: calc(100vh - 7.97rem);
         background-color:#f6fbfe;
         background-color: #fff;
 
