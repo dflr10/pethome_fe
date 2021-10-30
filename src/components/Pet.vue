@@ -268,11 +268,9 @@
                     })
             },
             isPetsWithoutFilterEmpty: function () {
-                console.log(this.petsWithoutFilter.length);
                 return this.petsWithoutFilter.length<=0;
             },
             isPetsEmpty: function () {
-                console.log(this.pets.length);
                 return this.pets.length<=0;
             },
         },
