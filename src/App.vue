@@ -25,16 +25,16 @@
         <footer class="footer">
             <span>Developed by Group 6</span>
             <div class="media">
-                <a href="https://twitter.com/dflr10">
+                <a href="https://twitter.com/dflr10" rel="noopener" target="_blank">
                     <i class="fab fa-twitter"></i>
                 </a>
                 <!-- <a href="https://github.com/dflr10">
                     <i class="fab fa-github"></i>
                 </a> -->
-                <a href="https://www.linkedin.com/in/daniel-felipe-lozada-ramirez/">
+                <a href="https://www.linkedin.com/in/daniel-felipe-lozada-ramirez/" rel="noopener" target="_blank">
                     <i class="fab fa-linkedin-in"></i>
                 </a>
-                <a href="mailto:felipe_lozada04102@elpoli.edu.co">
+                <a href="mailto:felipe_lozada04102@elpoli.edu.co" rel="noopener" target="_blank">
                     <i class="far fa-envelope"></i>
                 </a>
             </div>
