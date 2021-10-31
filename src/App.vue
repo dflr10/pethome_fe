@@ -28,9 +28,6 @@
                 <a href="https://twitter.com/dflr10" rel="noopener" target="_blank">
                     <i class="fab fa-twitter"></i>
                 </a>
-                <!-- <a href="https://github.com/dflr10">
-                    <i class="fab fa-github"></i>
-                </a> -->
                 <a href="https://www.linkedin.com/in/daniel-felipe-lozada-ramirez/" rel="noopener" target="_blank">
                     <i class="fab fa-linkedin-in"></i>
                 </a>
