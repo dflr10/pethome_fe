@@ -99,8 +99,8 @@
                                         <button type="button" v-if="id_pet!=0" v-on:click="adoptPet" class="btn btn-change btn-primary">Change</button>
                                     </div>
                                 </div>
-                                <button type="button" v-if="id_pet==0" v-on:click="createPet" class="btn btn-add-new btn-primary">Add</button>
-                                <button type="button" v-if="id_pet!=0" v-on:click="updatePet" class="btn btn-update btn-primary">Update</button>
+                                <button type="button" v-if="id_pet==0" v-on:click="createPet" class="btn btn-add-new btn-primary" data-bs-dismiss="modal" aria-label="Close">Add</button>
+                                <button type="button" v-if="id_pet!=0" v-on:click="updatePet" class="btn btn-update btn-primary" data-bs-dismiss="modal" aria-label="Close">Update</button>
                             </form>
                         </div>
                         <div class="p-2 w-30 bd-highlight imageModal">
