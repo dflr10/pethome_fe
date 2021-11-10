@@ -23,7 +23,7 @@
         </main>
 
         <footer class="footer">
-            <span>Developed by Group 6</span>
+            <span>Developed by Group 1</span>
             <div class="media">
                 <a href="https://twitter.com/dflr10" rel="noopener" target="_blank">
                     <i class="fab fa-twitter"></i>
