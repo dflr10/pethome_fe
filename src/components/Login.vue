@@ -30,6 +30,7 @@
         name: "login",
         data: function () {
             return {
+                deploy_route: "https://pethomemintic-be.herokuapp.com", // ruta heroku -> "https://pethomemintic-be.herokuapp.com" , ruta_local -> "http://127.0.0.1:8000"
                 user: {
                     username: "",
                     password: ""
@@ -39,7 +40,7 @@
         methods: {
             processLogInUser: function () {
                 axios.post(
-                    "https://pethomemintic-be.herokuapp.com/login/",
+                    this.deploy_route + "/login/",
                     this.user,
                     { headers: {} }
                 )
