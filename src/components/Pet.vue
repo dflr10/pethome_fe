@@ -120,6 +120,8 @@
         name: "pet",
         data: function () {
             return {
+                deploy_route: "https://pethomemintic-be.herokuapp.com", // ruta heroku -> "https://pethomemintic-be.herokuapp.com" , ruta_local -> "http://127.0.0.1:8000"
+                imagePath:"https://pethomemintic-be.herokuapp.com/images/", // PATH IMAGEN UPLOAD
                 pets: [],
                 loaded: false,
                 modalTitle:"",
@@ -138,12 +140,11 @@
                 description: "",
                 image: "noImage.png",
                 user:0,
-                imagePath: "https://pethomemintic-be.herokuapp.com/images/",
             }
         },
         methods: {
             getPets: function () {
-                axios.get('https://pethomemintic-be.herokuapp.com/pet/')
+                axios.get(this.deploy_route + "/pet/")
                     .then(response => {
                         this.pets = response.data;
                         this.user = parseInt(localStorage.getItem('idUser'));
@@ -192,7 +193,7 @@
                 this.avaliable = !this.avaliable;
             },
             createPet: function () {
-                axios.post('https://pethomemintic-be.herokuapp.com/pet/', {
+                axios.post(this.deploy_route + "/pet/", {
                     name: this.name,
                     specie: this.specie,
                     breed: this.breed,
@@ -212,7 +213,7 @@
                 })
             },
             updatePet: function () {
-                axios.put('https://pethomemintic-be.herokuapp.com/pet/', {
+                axios.put(this.deploy_route + "/pet/", {
                     id_pet: this.id_pet,
                     name: this.name,
                     specie: this.specie,
@@ -235,7 +236,7 @@
             uploadImage: function(event){
                 let formData = new FormData();
                 formData.append('file', event.target.files[0]);
-                axios.post('https://pethomemintic-be.herokuapp.com/pet/savefile/', formData)
+                axios.post(this.deploy_route + "/pet/savefile/", formData)
                     .then(response => {
                         this.image = response.data;
                     }).catch(error => {
@@ -259,7 +260,7 @@
                 if(!confirm("Are you sure you want to delete this pet?")){
                     return;
                 }
-                axios.delete('https://pethomemintic-be.herokuapp.com/pet/' + id +'/')
+                axios.delete(this.deploy_route + "/pet/" + id +'/')
                     .then(response => {
                         this.getPets();
                     })

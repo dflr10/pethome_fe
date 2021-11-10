@@ -12,6 +12,7 @@
         name: "home",
         data: function () {
             return {
+                deploy_route: "https://pethomemintic-be.herokuapp.com", // ruta heroku -> "https://pethomemintic-be.herokuapp.com" , ruta_local -> "http://127.0.0.1:8000"
                 id_user:0,
                 name: "",
                 email: "",
@@ -29,7 +30,7 @@
                 let token = localStorage.getItem("token_access");
                 let userId = jwt_decode(token).user_id.toString();
                 localStorage.setItem("idUser",userId);
-                axios.get(`https://pethomemintic-be.herokuapp.com/user/${userId}/`, { headers: { 'Authorization': `Bearer ${token}` } })
+                axios.get(`${this.deploy_route}/user/${userId}/`, { headers: { 'Authorization': `Bearer ${token}` } })
                     .then((result) => {
                         this.id_user = result.data.id_user;
                         this.name = result.data.name;
@@ -41,7 +42,7 @@
                     });
             },
             verifyToken: function () {
-                return axios.post("https://pethomemintic-be.herokuapp.com/refresh/", { refresh: localStorage.getItem("token_refresh") }, { headers: {} }
+                return axios.post(this.deploy_route + "/refresh/", { refresh: localStorage.getItem("token_refresh") }, { headers: {} }
                 )
                     .then((result) => {
                         localStorage.setItem("token_access", result.data.access);
