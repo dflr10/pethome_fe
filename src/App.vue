@@ -268,14 +268,15 @@
         }
         ul#navbar-ul li{
             display:block;
-            width: 35%;
+            width: 50%;
             margin: auto;
             margin-top: 4px;
             margin-bottom: 4px;
         }
 
         ul#navbar-ul button{
-            width: 200px;
+            width: 100%;
+            margin: auto;
         }
 
         ul.nav-bar-show{
