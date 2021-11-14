@@ -104,11 +104,15 @@
                                         <button type="button" v-if="id_pet!=0" v-on:click="adoptPet" class="btn btn-change btn-primary">Change</button>
                                     </div>
                                 </div>
+                                <div class="p-2 w-30 bd-highlight imageModal" :class="[ window_width >= 990 ? 'imageModal-not-show' : '']">
+                                    <img :src='imagePath + image' alt="Pet image"/>
+                                    <input type="file"  name="image" id="image" class="inputfile m-2" accept="image/*" @change="uploadImage"/>
+                                </div>
                                 <button type="button" v-if="id_pet==0" v-on:click="createPet" class="btn btn-add-new btn-primary" data-bs-dismiss="modal" aria-label="Close">Add</button>
                                 <button type="button" v-if="id_pet!=0" v-on:click="updatePet" class="btn btn-update btn-primary" data-bs-dismiss="modal" aria-label="Close">Update</button>
                             </form>
                         </div>
-                        <div class="p-2 w-30 bd-highlight imageModal">
+                        <div class="p-2 w-30 bd-highlight imageModal" :class="[ window_width < 990 ? 'imageModal-not-show' : '']">
                             <img :src='imagePath + image' alt="Pet image"/>
                                 <input type="file"  name="image" id="image" class="inputfile m-2" accept="image/*" @change="uploadImage"/>
                         </div>
@@ -361,9 +365,6 @@
         border: none;
         box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
     }
-    .aval {
-        width: 68%;
-    }
     .change {
         display: flex;
     }
@@ -373,6 +374,7 @@
     }
     .form-control {
         margin: 0.5rem;
+        margin-right: 0;
         display: block;
     }
     .id{
@@ -381,10 +383,11 @@
     .item{
         display:flex;
         align-items: center;
-        margin: 0.7rem;
     }
     .input-group-text {
         width: 55%;
+        margin: 0; /** sobreescribe el atributo de form-control para los inputs */
+        text-align: left;
         border: none;
         box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
     }
@@ -404,12 +407,10 @@
         border: none;
         box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
     }
-    .select-gender {
-        width: 35%;
-    }
     .item .gender {
         width: 100%;
     }
+    
     select, input, textarea {
         border: none;
         box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
@@ -419,6 +420,11 @@
         border-radius: 8px;
         box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
     }
+    
+    .imageModal-not-show{
+        display: none;
+    }
+
     .modal-body  {
         border-radius: 8px;
     }
