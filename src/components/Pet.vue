@@ -1,18 +1,22 @@
 <template>
     <img class="loading" v-if="!loaded" src="../assets/loading.svg" alt="loading">
-    <button v-if="loaded"  type="button" class="btn btn-add btn-primary float-left" data-bs-toggle="modal" data-bs-target="#addModal"
-    v-on:click="addPet">Add new pet</button>
-    <input class="form-control filter" v-if="loaded" v-model="nameFilter" v-on:keyup="filterPet" placeholder="Filter by name">
-    <select name="select" v-if="loaded" class="form-control filter" v-model="specieFilter" @change="filterPet">
+
+    <div class="pet-div-form">
+        <button v-if="loaded"  type="button" class="btn btn-add btn-primary float-left" data-bs-toggle="modal" data-bs-target="#addModal"
+        v-on:click="addPet">Add new pet</button>
+        <input class="form-control filter" v-if="loaded" v-model="nameFilter" v-on:keyup="filterPet" placeholder="Filter by name">
+        <select name="select" v-if="loaded" class="form-control filter" v-model="specieFilter" @change="filterPet">
         <option value="">Filter by specie</option>
         <option value="dog" selected >Dogs</option>
         <option value="cat" >Cats</option>
-    </select>
-    <select name="select" v-if="loaded" class="form-control filter" v-model="avaliableFilter" @change="filterPet">
+        </select>
+        <select name="select" v-if="loaded" class="form-control filter" v-model="avaliableFilter" @change="filterPet">
         <option value="">Filter by avaliables</option>
         <option value="true" selected >Yes</option>
         <option value="false" >No</option>
-    </select>
+        </select>
+    </div>
+
     <div class="hero container" v-if="isPetsWithoutFilterEmpty() && loaded && isPetsEmpty()" >
             <h2 class="hero-title"> Click on <button v-if="loaded"  type="button" class="" data-bs-toggle="modal" data-bs-target="#addModal"
     v-on:click="addPet">Add new pet</button></h2>
@@ -489,6 +493,36 @@
         transition: all 0.2s ease-in-out;
         transform: translateY(-0.5px) scale(1.05);
         cursor: pointer;
+    }
+
+    @media screen and (max-width: 610px){
+
+        div.pet-div-form > *.filter{
+            display: block;
+        }
+        
+        div.pet-div-form input.filter, 
+        div.pet-div-form select.filter
+        {
+            width: 80%;
+            margin: auto;
+            margin-top: 10px;
+        }
+
+         
+        div.pet-div-form button{
+            width: 70%;
+            margin: auto;
+
+            border-radius: 0;
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+
+            border: 3px #331173 solid;
+            border-left: 0px;
+            border-right: 10px #331173 solid;
+
+        }
     }
 
 </style>
