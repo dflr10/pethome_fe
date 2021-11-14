@@ -104,7 +104,6 @@
                 this.completedLogIn(data);
             },
             navbarCollapse: function(){
-                console.info("funciona");
                 this.responsive_bars = !this.responsive_bars;
             },
         },

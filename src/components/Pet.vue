@@ -282,7 +282,6 @@
                 return this.pets.length<=0;
             },
             getWindowWidth: function(event){
-                console.info(this.window_width);
                 this.window_width = window.innerWidth;
             }
         },
