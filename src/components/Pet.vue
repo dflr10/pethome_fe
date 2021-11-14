@@ -46,6 +46,7 @@
             </div>
         </div>
     </div>
+
     <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModal" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
@@ -55,7 +56,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="d-flex flex-row db-highlight mb-3">
+                    <div class="d-flex db-highlight mb-3" :class="[ window_width < 990 ? 'flex-column' : 'flex-row']">
                         <div class="input-group">
                             <form id="addForm" method="POST" action="<%= BASE_URL %>/pets/add">
                                 <div class="form-group mb-3">
@@ -144,6 +145,8 @@
                 description: "",
                 image: "noImage.png",
                 user:0,
+                // variables responsive
+                window_width: window.innerWidth,
             }
         },
         methods: {
@@ -278,9 +281,18 @@
             isPetsEmpty: function () {
                 return this.pets.length<=0;
             },
+            getWindowWidth: function(event){
+                console.info(this.window_width);
+                this.window_width = window.innerWidth;
+            }
         },
         mounted: function () {
             this.getPets();
+
+            this.$nextTick(function() {
+                window.addEventListener('resize', this.getWindowWidth);
+            })
+
         }
     }
 </script>
