@@ -72,7 +72,6 @@
             },
             logOut: function () {
             localStorage.clear();
-            //alert("The session ended");
             this.verifyAuth();
             },
             completedLogIn: function(data) {
@@ -80,7 +79,6 @@
                 localStorage.setItem("username", data.username);
                 localStorage.setItem("token_access", data.token_access);
                 localStorage.setItem("token_refresh", data.token_refresh);
-                //alert("Successful authentication");
                 this.verifyAuth();
             },
             completedSignUp: function(data) {
