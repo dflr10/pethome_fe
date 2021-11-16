@@ -1,22 +1,18 @@
 <template>
     <img class="loading" v-if="!loaded" src="../assets/loading.svg" alt="loading">
-
-    <div class="pet-div-form">
-        <button v-if="loaded"  type="button" class="btn btn-add btn-primary float-left" data-bs-toggle="modal" data-bs-target="#addModal"
-        v-on:click="addPet">Add new pet</button>
-        <input class="form-control filter" v-if="loaded" v-model="nameFilter" v-on:keyup="filterPet" placeholder="Filter by name">
-        <select name="select" v-if="loaded" class="form-control filter" v-model="specieFilter" @change="filterPet">
+    <button v-if="loaded"  type="button" class="btn btn-add btn-primary float-left" data-bs-toggle="modal" data-bs-target="#addModal"
+    v-on:click="addPet">Add new pet</button>
+    <input class="form-control filter" v-if="loaded" v-model="nameFilter" v-on:keyup="filterPet" placeholder="Filter by name">
+    <select name="select" v-if="loaded" class="form-control filter" v-model="specieFilter" @change="filterPet">
         <option value="">Filter by specie</option>
         <option value="dog" selected >Dogs</option>
         <option value="cat" >Cats</option>
-        </select>
-        <select name="select" v-if="loaded" class="form-control filter" v-model="avaliableFilter" @change="filterPet">
+    </select>
+    <select name="select" v-if="loaded" class="form-control filter" v-model="avaliableFilter" @change="filterPet">
         <option value="">Filter by avaliables</option>
         <option value="true" selected >Yes</option>
         <option value="false" >No</option>
-        </select>
-    </div>
-
+    </select>
     <div class="hero container" v-if="isPetsWithoutFilterEmpty() && loaded && isPetsEmpty()" >
             <h2 class="hero-title"> Click on <button v-if="loaded"  type="button" class="" data-bs-toggle="modal" data-bs-target="#addModal"
     v-on:click="addPet">Add new pet</button></h2>
@@ -46,7 +42,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModal" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
@@ -56,7 +51,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="d-flex db-highlight mb-3" :class="[ window_width < 990 ? 'flex-column' : 'flex-row']">
+                    <div class="d-flex flex-row db-highlight mb-3">
                         <div class="input-group">
                             <form id="addForm" method="POST" action="<%= BASE_URL %>/pets/add">
                                 <div class="form-group mb-3">
@@ -104,15 +99,11 @@
                                         <button type="button" v-if="id_pet!=0" v-on:click="adoptPet" class="btn btn-change btn-primary">Change</button>
                                     </div>
                                 </div>
-                                <div class="p-2 w-30 bd-highlight imageModal" :class="[ window_width >= 990 ? 'imageModal-not-show' : '']">
-                                    <img :src='imagePath + image' alt="Pet image"/>
-                                    <input type="file"  name="image" id="image" class="inputfile m-2" accept="image/*" @change="uploadImage"/>
-                                </div>
                                 <button type="button" v-if="id_pet==0" v-on:click="createPet" class="btn btn-add-new btn-primary" data-bs-dismiss="modal" aria-label="Close">Add</button>
                                 <button type="button" v-if="id_pet!=0" v-on:click="updatePet" class="btn btn-update btn-primary" data-bs-dismiss="modal" aria-label="Close">Update</button>
                             </form>
                         </div>
-                        <div class="p-2 w-30 bd-highlight imageModal" :class="[ window_width < 990 ? 'imageModal-not-show' : '']">
+                        <div class="p-2 w-30 bd-highlight imageModal">
                             <img :src='imagePath + image' alt="Pet image"/>
                                 <input type="file"  name="image" id="image" class="inputfile m-2" accept="image/*" @change="uploadImage"/>
                         </div>
@@ -149,8 +140,6 @@
                 description: "",
                 image: "noImage.png",
                 user:0,
-                // variables responsive
-                window_width: window.innerWidth,
             }
         },
         methods: {
@@ -285,17 +274,9 @@
             isPetsEmpty: function () {
                 return this.pets.length<=0;
             },
-            getWindowWidth: function(event){
-                this.window_width = window.innerWidth;
-            }
         },
         mounted: function () {
             this.getPets();
-
-            this.$nextTick(function() {
-                window.addEventListener('resize', this.getWindowWidth);
-            })
-
         }
     }
 </script>
@@ -365,6 +346,9 @@
         border: none;
         box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
     }
+    .aval {
+        width: 68%;
+    }
     .change {
         display: flex;
     }
@@ -374,7 +358,6 @@
     }
     .form-control {
         margin: 0.5rem;
-        margin-right: 0;
         display: block;
     }
     .id{
@@ -383,11 +366,10 @@
     .item{
         display:flex;
         align-items: center;
+        margin: 0.7rem;
     }
     .input-group-text {
         width: 55%;
-        margin: 0; /** sobreescribe el atributo de form-control para los inputs */
-        text-align: left;
         border: none;
         box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
     }
@@ -407,10 +389,12 @@
         border: none;
         box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
     }
+    .select-gender {
+        width: 35%;
+    }
     .item .gender {
         width: 100%;
     }
-    
     select, input, textarea {
         border: none;
         box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
@@ -420,11 +404,6 @@
         border-radius: 8px;
         box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
     }
-    
-    .imageModal-not-show{
-        display: none;
-    }
-
     .modal-body  {
         border-radius: 8px;
     }
@@ -510,36 +489,6 @@
         transition: all 0.2s ease-in-out;
         transform: translateY(-0.5px) scale(1.05);
         cursor: pointer;
-    }
-
-    @media screen and (max-width: 610px){
-
-        div.pet-div-form > *.filter{
-            display: block;
-        }
-        
-        div.pet-div-form input.filter, 
-        div.pet-div-form select.filter
-        {
-            width: 80%;
-            margin: auto;
-            margin-top: 10px;
-        }
-
-         
-        div.pet-div-form button{
-            width: 70%;
-            margin: auto;
-
-            border-radius: 0;
-            border-top-right-radius: 8px;
-            border-bottom-right-radius: 8px;
-
-            border: 3px #331173 solid;
-            border-left: 0px;
-            border-right: 10px #331173 solid;
-
-        }
     }
 
 </style>
