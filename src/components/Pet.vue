@@ -1,18 +1,22 @@
 <template>
     <img class="loading" v-if="!loaded" src="../assets/loading.svg" alt="loading">
-    <button v-if="loaded"  type="button" class="btn btn-add btn-primary float-left" data-bs-toggle="modal" data-bs-target="#addModal"
-    v-on:click="addPet">Add new pet</button>
-    <input class="form-control filter" v-if="loaded" v-model="nameFilter" v-on:keyup="filterPet" placeholder="Filter by name">
-    <select name="select" v-if="loaded" class="form-control filter" v-model="specieFilter" @change="filterPet">
+
+    <div class="pet-div-form">
+        <button v-if="loaded"  type="button" class="btn btn-add btn-primary float-left" data-bs-toggle="modal" data-bs-target="#addModal"
+        v-on:click="addPet">Add new pet</button>
+        <input class="form-control filter" v-if="loaded" v-model="nameFilter" v-on:keyup="filterPet" placeholder="Filter by name">
+        <select name="select" v-if="loaded" class="form-control filter" v-model="specieFilter" @change="filterPet">
         <option value="">Filter by specie</option>
         <option value="dog" selected >Dogs</option>
         <option value="cat" >Cats</option>
-    </select>
-    <select name="select" v-if="loaded" class="form-control filter" v-model="avaliableFilter" @change="filterPet">
+        </select>
+        <select name="select" v-if="loaded" class="form-control filter" v-model="avaliableFilter" @change="filterPet">
         <option value="">Filter by avaliables</option>
         <option value="true" selected >Yes</option>
         <option value="false" >No</option>
-    </select>
+        </select>
+    </div>
+
     <div class="hero container" v-if="isPetsWithoutFilterEmpty() && loaded && isPetsEmpty()" >
             <h2 class="hero-title"> Click on <button v-if="loaded"  type="button" class="" data-bs-toggle="modal" data-bs-target="#addModal"
     v-on:click="addPet">Add new pet</button></h2>
@@ -42,6 +46,7 @@
             </div>
         </div>
     </div>
+
     <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModal" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
@@ -51,7 +56,11 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="d-flex flex-row db-highlight mb-3">
+                    <div class="d-flex db-highlight mb-3 mobile">
+                        <div class="p-2 w-30 bd-highlight imageModal">
+                            <img :src='imagePath + image' alt="Pet image"/>
+                                <input type="file"  name="image" id="image" class="inputfile m-2" accept="image/*" @change="uploadImage"/>
+                        </div>
                         <div class="input-group">
                             <form id="addForm" method="POST" action="<%= BASE_URL %>/pets/add">
                                 <div class="form-group mb-3">
@@ -103,10 +112,7 @@
                                 <button type="button" v-if="id_pet!=0" v-on:click="updatePet" class="btn btn-update btn-primary" data-bs-dismiss="modal" aria-label="Close">Update</button>
                             </form>
                         </div>
-                        <div class="p-2 w-30 bd-highlight imageModal">
-                            <img :src='imagePath + image' alt="Pet image"/>
-                                <input type="file"  name="image" id="image" class="inputfile m-2" accept="image/*" @change="uploadImage"/>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -346,9 +352,6 @@
         border: none;
         box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
     }
-    .aval {
-        width: 68%;
-    }
     .change {
         display: flex;
     }
@@ -358,6 +361,7 @@
     }
     .form-control {
         margin: 0.5rem;
+        margin-right: 0;
         display: block;
     }
     .id{
@@ -366,10 +370,11 @@
     .item{
         display:flex;
         align-items: center;
-        margin: 0.7rem;
     }
     .input-group-text {
         width: 55%;
+        margin: 0; /** sobreescribe el atributo de form-control para los inputs */
+        text-align: left;
         border: none;
         box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
     }
@@ -389,12 +394,10 @@
         border: none;
         box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
     }
-    .select-gender {
-        width: 35%;
-    }
     .item .gender {
         width: 100%;
     }
+    
     select, input, textarea {
         border: none;
         box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
@@ -489,6 +492,46 @@
         transition: all 0.2s ease-in-out;
         transform: translateY(-0.5px) scale(1.05);
         cursor: pointer;
+    }
+
+    @media screen and (max-width: 610px){
+        
+        /** Para el formulario de filtros */
+        div.pet-div-form > *.filter{
+            display: block;
+        }
+        
+        div.pet-div-form input.filter, 
+        div.pet-div-form select.filter
+        {
+            width: 100%;
+            margin: 0;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        /** btn-add-new */
+        div.pet-div-form button{
+            margin: 0;
+            margin-top: 2rem;
+            width: 100%;
+        }
+
+        /** Modal */
+
+        .mobile{
+            flex-direction: column !important;
+        }
+
+        .input-group {
+            flex-direction: column;
+            display: grid;
+        }
+
+        #addForm .form-control{
+            margin-left: 0;
+        }
+
     }
 
 </style>
