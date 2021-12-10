@@ -3,28 +3,29 @@
         <header class="header">
             <div class="logo">
                 <img class="logo" src="../src/assets/pethome64.png" alt="pethome" >
-                <h1>PETHOME</h1>
-                <button id="navbar-bars" @click="navbarCollapse">
-                    <i class="fa fa-bars fa-3x custom-fa-bars" aria-hidden="true"></i>
+                <h1 class="sitename">PETHOME</h1>
+                <button class="logo_bars" @click="navbarCollapse">
+                    <i class="fa" 
+                        :class="[responsive_bars ? 'fa-times' : 'fa-bars fa-3x custom-fa-bars']" aria-hidden="true"></i>
                 </button>
             </div>
             
-            <nav id="navbar-nav" >
-                <ul id="navbar-ul" :class="[responsive_bars ? 'nav-bar-show' : 'nav-bar-not-show']">
+            <nav class="header_nav" >
+                <ul :class="[responsive_bars ? 'ul_navbar open' : 'ul_navbar']">
                     <li>
-                        <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" v-on:click="loadHome"> Home </button>
+                        <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" v-on:click="navbarCollapse(), loadHome()"> Home </button>
                     </li>
                     <li>
-                        <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" v-on:click="loadPet"> Pets </button>
+                        <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" v-on:click="navbarCollapse(), loadPet()"> Pets </button>
                     </li>
                     <li>
-                        <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" v-on:click="logOut"> Log Out </button>
+                        <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" v-on:click="navbarCollapse(), logOut()"> Log Out </button>
                     </li>
                     <li>
-                        <button class="btn btn-primary btn-lg btn-block" v-if="!is_auth" v-on:click="loadLogIn" > Log in </button>
+                        <button class="btn btn-primary btn-lg btn-block" v-if="!is_auth" v-on:click="navbarCollapse(), loadLogIn()" > Log in </button>
                     </li>
                     <li>
-                        <button class="btn btn-primary btn-lg btn-block" v-if="!is_auth" v-on:click="loadSignUp" > Sign Up </button>
+                        <button class="btn btn-primary btn-lg btn-block" v-if="!is_auth" v-on:click="navbarCollapse(), loadSignUp()" > Sign Up </button>
                     </li>
                 </ul>
             </nav>
@@ -126,6 +127,7 @@
         width: 100%;
         height: 10vh;
         min-height: 90px;
+        background: #4776E6;
         background: -webkit-linear-gradient(to right, #8E54E9, #4776E6);
         background: linear-gradient(to right, #8E54E9, #4776E6);
         color: #fff;
@@ -139,12 +141,13 @@
 
     
 
-    .header h1 {
+    .sitename{
         margin-top:2rem;
         margin-left: 0.5rem;
         width: 20%;
         text-align: left;
     }
+
     .header img {
         margin-left: 2rem;
     }
@@ -164,7 +167,7 @@
 
     }
 
-    button#navbar-bars{
+    .logo_bars{
         /** normaliza el estilo del boton */
         background: none;
 	    color: inherit;
@@ -178,21 +181,22 @@
         display: none;
     }
 
-    ul#navbar-ul{
+    .logo_bars i{
+        font-size: 2.8rem;
+    }
+
+    .header_nav ul{
         padding: 20px 0px 0px 0px;
         margin: 0;
         list-style-type: none;
     }
     
-    ul#navbar-ul li{
+    .header_nav ul > li{
         display: inline-block;
     }
 
     i.custom-fa-bars{
         margin: 0px;
-        padding: 2px 6px;
-        border: 2px white solid;
-        border-radius: 10px;
     }
 
     main {
@@ -206,9 +210,9 @@
         padding:0;
         width: 100%;
         height: 2rem;
-        background: #4776E6;
-        background: -webkit-linear-gradient(to right, #8E54E9, #4776E6);
-        background: linear-gradient(to right, #8E54E9, #4776E6);
+        background: #353235;
+        background: -webkit-linear-gradient(to right, #353235, 5%, #362d42 );
+        background: linear-gradient(to right, #353235, 5%, #362d42);
         color: #fff;
         display: flex;
         align-items: center;
@@ -227,6 +231,7 @@
     }
     .footer span {
         margin-left: 2rem;
+        font-size: 1rem;
     }
     .footer .media {
         margin-right: 2rem;
@@ -242,28 +247,50 @@
             display: inline-block;
         }
 
-        .header .logo {
-            justify-content: center;
-        }
-
-        .header .logo h1{
-            /** Cambia la distancia entre el logo y la hamburguesa */
-            padding-right: 45%;
-        }
-
-        nav#navbar-nav{
+        .header ul{
+            position: absolute;
+            width: 100%;
+            background: #4776E6;
             background: -webkit-linear-gradient(to right, #8E54E9, #4776E6);
             background: linear-gradient(to right, #8E54E9, #4776E6);
         }
 
-        button#navbar-bars{
+        .ul_navbar{
+            opacity: 0;
+            visibility: hidden;
+            transform: scaleY(0);
+            transform-origin: top center;
+            transition: .15s ease-in;
+            transition-property: opacity, transform, visibility;
+        }
+
+        .open{
+            opacity: 1;
+            transform: scaleY(1);
+            visibility: visible;
+            z-index: 1;
+        }
+
+        .header .logo {
+           align-items: end;
+           justify-content: center;
+        }
+
+        .sitename{
+            /** Cambia la distancia entre el logo y la hamburguesa */
+            padding-right: 45%;
+        }
+
+
+        .logo_bars{
             display: flex;
         }
 
-        ul#navbar-ul{
+        .header_nav ul{
             padding-bottom: 10px;
         }
-        ul#navbar-ul li{
+
+        .header_nav ul > li{
             display:block;
             width: 50%;
             margin: auto;
@@ -271,17 +298,29 @@
             margin-bottom: 4px;
         }
 
-        ul#navbar-ul button{
+        .header_nav .btn{
             width: 100%;
-            margin: auto;
+            color: #362d42;
+            margin: 0;
         }
 
-        ul.nav-bar-show{
-            display:block;
+
+        .footer{
+            height: 12vh;
         }
 
-        ul.nav-bar-not-show{
-            display: none;
+	.footer span{
+	    display: none;
+	}
+
+	.footer .media{
+	    margin: auto;
+	} 
+
+        .media i{
+            margin: 0.4rem;
+            font-size: 1.2rem;
+	    padding: 0px 1.6rem;
         }
     }
 </style>
