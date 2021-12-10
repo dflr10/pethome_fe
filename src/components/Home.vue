@@ -1,7 +1,9 @@
 <template>
-        <div class="hero container">
-            <h2> Welcome <span> {{name}} </span> !</h2>
-            <p>Keeping track of your foundation pets has never been easier and faster.</p>
+        <div class="hero ">
+            <div class="hero_home container">
+                <h2 class="information--title"> Welcome <span> {{name}} </span> !</h2>
+                <p class="information">Track your foundation's pets with our secure and reliable system. Never be worried about letting them down!</p>
+            </div>
         </div>
 </template>
 
@@ -63,24 +65,52 @@
         background-image: url("../assets/hero.jpg");
         background-size: cover;
         background-position: center;
-        min-height: 80.8vh;
+        min-height: 90vh;
+    }
+
+    .hero_home{
         display: flex;
         flex-direction: column;
         align-items: center;
     }
+
     .hero img {
         width: 100%;
         height: auto;
     }
-     p {
+     .information {
          color: #4776E6;
         font-size: 1.8rem;
         text-align: center;
     }
-    h2 {
+    .information--title {
         margin-top: 1.4rem;
         font-size: 2rem;
         font-weight: bold;
         color: #8E54E9;
+    }
+
+    @media screen and (max-width: 680px){
+        .hero_home{
+            background-color:rgba(246, 245, 248, 0.8);
+            padding: 3.4rem 0;
+            border-radius: 4px;
+            -webkit-backdrop-filter: blur(3px);
+            backdrop-filter: blur(3px);
+        }
+
+        .hero .information, .information--title{
+            color:rgba(54, 45, 66);
+        }
+
+        .hero .information--title{
+            font-weight: bold;
+        }
+
+        .hero .information{
+            font-size: 1.2em;
+            padding: 1.7vw 5vw;
+            text-align: center;
+        }
     }
 </style>

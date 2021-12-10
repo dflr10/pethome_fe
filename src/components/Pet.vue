@@ -1,7 +1,7 @@
 <template>
     <img class="loading" v-if="!loaded" src="../assets/loading.svg" alt="loading">
 
-    <div class="pet-div-form">
+    <div class="pet-div-form container">
         <button v-if="loaded"  type="button" class="btn btn-add btn-primary float-left" data-bs-toggle="modal" data-bs-target="#addModal"
         v-on:click="addPet">Add new pet</button>
         <input class="form-control filter" v-if="loaded" v-model="nameFilter" v-on:keyup="filterPet" placeholder="Filter by name">
@@ -17,13 +17,17 @@
         </select>
     </div>
 
-    <div class="hero container" v-if="isPetsWithoutFilterEmpty() && loaded && isPetsEmpty()" >
+    <div class="hero " v-if="isPetsWithoutFilterEmpty() && loaded && isPetsEmpty()" >
+	<div class="container">
             <h2 class="hero-title"> Click on <button v-if="loaded"  type="button" class="" data-bs-toggle="modal" data-bs-target="#addModal"
     v-on:click="addPet">Add new pet</button></h2>
             <p class="hero-title">button to add your first pet!</p>
+	</div>
     </div>
-    <div class="hero container" v-if="!isPetsWithoutFilterEmpty() && loaded && isPetsEmpty()" v-bind:class="{'no-search-results' : isPetsEmpty()}">
+    <div class="hero " v-if="!isPetsWithoutFilterEmpty() && loaded && isPetsEmpty()" v-bind:class="{'no-search-results' : isPetsEmpty()}">
+    	<div class="container">
             <h2 class="hero-title">No search results</h2>
+	</div>
     </div>
     <div v-if="loaded" class="grid-fluid container">
         <div v-for="pet in pets" v-bind:key="pet.id_pet" class="card" style="width: 18rem;">
@@ -62,7 +66,7 @@
                                 <input type="file"  name="image" id="image" class="inputfile m-2" accept="image/*" @change="uploadImage"/>
                         </div>
                         <div class="input-group">
-                            <form id="addForm" method="POST" action="<%= BASE_URL %>/pets/add">
+                            <form id="addForm" class="pet-form" method="POST" action="<%= BASE_URL %>/pets/add">
                                 <div class="form-group mb-3">
                                     <input type="text" class="id" v-model="id_pet">
                                     <div class="item">
@@ -75,7 +79,7 @@
                                     </div>
                                     <div class="item">
                                         <span class="input-group-text form-control select-gender">Gender</span>
-                                            <select name="select" v-if="loaded" class="form-control gender" v-model="gender" required>
+                                            <select name="select" v-if="loaded" class="form-control about" v-model="gender" required>
                                                 <option value="">Select Gender</option>
                                                 <option value="Male" selected >Male</option>
                                                 <option value="Female" >Female</option>
@@ -83,7 +87,7 @@
                                     </div>
                                     <div class="item">
                                         <span class="input-group-text form-control select-gender">Specie</span>
-                                            <select name="select" v-if="loaded" class="form-control gender" v-model="specie" required>
+                                            <select name="select" v-if="loaded" class="form-control about" v-model="specie" required>
                                                 <option value="">Select Specie</option>
                                                 <option value="Dog" selected >Dog</option>
                                                 <option value="Cat" >Cat</option>
@@ -95,17 +99,16 @@
                                     </div>
                                     <div class="item">
                                         <span class="input-group-text">Birthday</span>
-                                        <input type="date" class="form-control" v-model="bday_aprox" aria-required="true" placeholder="Birthday">
+                                        <input type="date" class="form-control date" v-model="bday_aprox" aria-required="true" placeholder="Birthday"/> 
                                     </div>
                                     <div class="item">
                                         <span class="input-group-text">Date reg</span>
-                                        <input v-if="id_pet!=0"  type="date" class="form-control" v-model="date_register" aria-required="true" placeholder="Date Register" readonly>
-                                        <input v-if="id_pet==0" type="date" class="form-control" v-model="date_register" aria-required="true" placeholder="Date Register" readonly>
+                                        <input type="date" class="form-control date" v-model="date_register" aria-required="true" placeholder="Date Register" readonly>
                                     </div>
                                     <div class="item change">
                                         <span class="input-group-text">Avaliable</span>
                                         <input type="text" class="form-control aval" v-model="avaliable" aria-required="true" placeholder="Avaliable" readonly>
-                                        <button type="button" v-if="id_pet!=0" v-on:click="adoptPet" class="btn btn-change btn-primary">Change</button>
+                                        <button type="button" v-if="id_pet!=0" v-on:click="adoptPet" class="btn btn-change btn-primary"><i class="fa fa-refresh" aria-hidden="true"></i></button>
                                     </div>
                                 </div>
                                 <button type="button" v-if="id_pet==0" v-on:click="createPet" class="btn btn-add-new btn-primary" data-bs-dismiss="modal" aria-label="Close">Add</button>
@@ -169,9 +172,8 @@
                 this.specie = "";
                 this.breed = "";
                 this.gender= "";
-                this.bday_aprox = "";
-                let time = Date.now();
-                let today = new Date(time);
+                this.bday_aprox = "2021-12-12";
+                const today = new Date( Date.now() );
                 if (today.getMonth()+1 < 10) {
                     this.date_register = today.getFullYear() + "-0" + (today.getMonth()+1) + "-" + today.getDate();
                 } else {
@@ -352,9 +354,11 @@
         border: none;
         box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
     }
-    .change {
-        display: flex;
+
+    .change .input-group-text{
+        width: 75%;
     }
+
     .btn-change{
         margin: 0;
         width: 25%;
@@ -364,6 +368,11 @@
         margin-right: 0;
         display: block;
     }
+
+    .form-control.aval{
+        text-align: center;
+    }
+
     .id{
         display: none;
     }
@@ -394,7 +403,7 @@
         border: none;
         box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
     }
-    .item .gender {
+    .item .about {
         width: 100%;
     }
     
@@ -434,7 +443,7 @@
         background-image: url("../assets/empty.jpg");
         background-size: cover;
         background-position: center;
-        min-height: 65.6vh;
+        min-height: 80vh;
         display: flex;
         flex-direction: column;
         align-items: left;
@@ -449,7 +458,10 @@
         margin: 0 2rem;
         font-weight: bold;
         font-size: 2.5rem;
-        -webkit-text-stroke: 1.5px #8E54E9;
+        text-shadow: -1.5px 1.5px #8E54E9,
+                     1.5px 1.5px #8E54E9,
+                     1.5px -1.5px #8E54E9,
+                     -1.5px -1.5px #8E54E9;
         color: white;
     }
     .hero img {
@@ -477,7 +489,7 @@
         transition: all 0.2s ease-in-out;
         transform: translateY(-0.5px) scale(1.05);
     }
-    .hero.container button {
+    .container .hero-title button {
         color: white;
         border: none;
         -webkit-text-stroke: 0px #8E54E9;
@@ -517,20 +529,52 @@
             width: 100%;
         }
 
+        .hero{
+            margin: 4rem 0;
+            background-image: unset;
+            min-height: 0vh;
+            display: grid;
+            justify-items: center;
+        }
+
+        .hero .hero-title{
+            font-size: 1.3rem;
+            font-weight: normal;
+            text-shadow: unset;
+            color: #464677;
+        }
+
+
         /** Modal */
 
         .mobile{
+            /** Bootstrap 5 usa !important */
             flex-direction: column !important;
         }
 
         .input-group {
             flex-direction: column;
-            display: grid;
         }
 
-        #addForm .form-control{
+        .pet-form .form-control{
             margin-left: 0;
+	    max-width: 50vw;
         }
+
+        .item:nth-last-child(-n + 2) .form-control{
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .item:nth-last-child(-n + 2) .input-group-text{
+            border-bottom-right-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+	.form-control.date{
+	   padding-left:0.25rem;
+	}
+        
 
     }
 

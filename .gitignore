@@ -2,6 +2,9 @@
 node_modules
 /dist
 
+# other
+.gitignore
+package-lock.json
 
 # local env files
 .env.local
