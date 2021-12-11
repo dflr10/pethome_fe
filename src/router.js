@@ -5,6 +5,7 @@ import Login from "./components/Login.vue";
 import SignUp from "./components/SignUp.vue";
 import Home from "./components/Home.vue";
 import Pet from "./components/Pet.vue";
+import Avaliables from "./components/Avaliables.vue";
 
 const routes = [
   {
@@ -31,6 +32,11 @@ const routes = [
     path: "/user/pet",
     name: "pet",
     component: Pet,
+  },
+  {
+    path: "/user/avaliables",
+    name: "avaliables",
+    component: Avaliables,
   },
 ];
 const router = createRouter({

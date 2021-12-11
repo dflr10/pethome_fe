@@ -9,7 +9,7 @@
                         :class="[responsive_bars ? 'fa-times' : 'fa-bars fa-3x custom-fa-bars']" aria-hidden="true"></i>
                 </button>
             </div>
-            
+
             <nav class="header_nav" >
                 <ul :class="[responsive_bars ? 'ul_navbar open' : 'ul_navbar']">
                     <li>
@@ -26,6 +26,9 @@
                     </li>
                     <li>
                         <button class="btn btn-primary btn-lg btn-block" v-if="!is_auth" v-on:click="navbarCollapse(), loadSignUp()" > Sign Up </button>
+                    </li>
+                    <li>
+                        <button class="btn btn-primary btn-lg btn-block" v-if="!is_auth" v-on:click="navbarCollapse(), loadAvaliables()" > Avaliables </button>
                     </li>
                 </ul>
             </nav>
@@ -88,6 +91,9 @@
             loadPet: function () {
                 this.$router.push({ name: "pet" });
             },
+            loadAvaliables: function () {
+                this.$router.push({ name: "avaliables" });
+            },
             logOut: function () {
             localStorage.clear();
             this.verifyAuth();
@@ -108,10 +114,10 @@
         },
         created: function () {
             this.verifyAuth();
+            this.loadAvaliables();
         },
     }
 
-    
 </script>
 
 <style>
@@ -139,7 +145,6 @@
         display: flex;
     }
 
-    
 
     .sitename{
         margin-top:2rem;
@@ -170,12 +175,12 @@
     .logo_bars{
         /** normaliza el estilo del boton */
         background: none;
-	    color: inherit;
-	    border: none;
-	    padding: 0;
-	    font: inherit;
-	    cursor: pointer;
-	    outline: inherit;
+        color: inherit;
+        border: none;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
 
         /** originalmente no se renderiza */
         display: none;
@@ -242,7 +247,7 @@
         transition: all 0.2s ease-in-out;
     }
 
-    @media screen and (max-width: 750px) {
+    @media screen and (max-width: 868px) {
         .header{
             display: inline-block;
         }
@@ -309,18 +314,19 @@
             height: 12vh;
         }
 
-	.footer span{
-	    display: none;
-	}
+        .footer span{
+            display: none;
+        }
 
-	.footer .media{
-	    margin: auto;
-	} 
+        .footer .media{
+            margin: auto;
+        }
 
         .media i{
-            margin: 0.4rem;
-            font-size: 1.2rem;
-	    padding: 0px 1.6rem;
+          margin: 0.4rem;
+          font-size: 1.2rem;
+          padding: 0px 1.6rem;
         }
     }
+
 </style>
