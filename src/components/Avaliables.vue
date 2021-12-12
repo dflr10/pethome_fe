@@ -15,7 +15,7 @@ eL CENTRO DE ADOPCIÓN SE PONDRÁ EN CONTACTO CON ESTA PERSONA POR MEDIO EXTERNO
     </div>
       </div>
     </div>
-     <h5 class="hero-title avaliable">This pets are waiting for a new home.</h5>
+     <h5 class="hero-title avaliable" v-if="loaded">This pets are waiting for a new home.</h5>
     <div v-if="loaded" class="grid-fluid container">
         <div v-for="pet in pets" v-bind:key="pet.id_pet" class="card" style="width: 18rem;">
             <div class="card-body top" v-bind:class="{'no-avaliable' : pet.avaliable==false}">
