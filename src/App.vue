@@ -19,6 +19,9 @@
                         <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" v-on:click="navbarCollapse(), loadPet()"> Pets </button>
                     </li>
                     <li>
+                        <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" v-on:click="navbarCollapse(), loadAdoptions()"> Requests </button>
+                    </li>
+                    <li>
                         <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" v-on:click="navbarCollapse(), logOut()"> Log Out </button>
                     </li>
                     <li>
@@ -88,10 +91,13 @@
             loadPet: function () {
                 this.$router.push({ name: "pet" });
             },
+            loadAdoptions: function () {
+                this.$router.push({ name: "adoptions" });
+            },
             logOut: function () {
-            localStorage.clear();
-            //alert("The session ended");
-            this.verifyAuth();
+                localStorage.clear();
+                //alert("The session ended");
+                this.verifyAuth();
             },
             completedLogIn: function(data) {
                 localStorage.setItem("isAuth", true);

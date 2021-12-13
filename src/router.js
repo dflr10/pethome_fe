@@ -5,6 +5,7 @@ import Login from "./components/Login.vue";
 import SignUp from "./components/SignUp.vue";
 import Home from "./components/Home.vue";
 import Pet from "./components/Pet.vue";
+import Adoptions from "./components/Adoptions.vue"
 
 const routes = [
   {
@@ -31,6 +32,11 @@ const routes = [
     path: "/user/pet",
     name: "pet",
     component: Pet,
+  },
+  {
+    path: "/user/adoptions",
+    name: "adoptions",
+    component: Adoptions,
   },
 ];
 const router = createRouter({

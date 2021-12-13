@@ -30,7 +30,7 @@
 	</div>
     </div>
     <div v-if="loaded" class="grid-fluid container">
-        <div v-for="pet in pets" v-bind:key="pet.id_pet" class="card" style="width: 18rem;">
+        <div v-for="pet in pets" v-bind:key="pet.id_pet" class="card infopet">
             <div class="card-body top" v-bind:class="{'no-avaliable' : pet.avaliable==false}">
                 <img  :src='imagePath+pet.image' class="card-img-top " alt="Pet image"/>
                 <h5 class="name card-title"><strong>{{pet.name}}</strong></h5>
@@ -86,9 +86,9 @@
                                             </select>
                                     </div>
                                     <div class="item">
-                                        <span class="input-group-text form-control select-gender">Specie</span>
+                                        <span class="input-group-text form-control select-gender">Species</span>
                                             <select name="select" v-if="loaded" class="form-control about" v-model="specie" required>
-                                                <option value="">Select Specie</option>
+                                                <option value="">Select species</option>
                                                 <option value="Dog" selected >Dog</option>
                                                 <option value="Cat" >Cat</option>
                                             </select>
@@ -162,7 +162,7 @@
                         this.loaded = true;
                         })
                     .catch(error => {
-                        console.log(error);
+                        console.error(error);
                     })
             },
             addPet: function () {
@@ -217,7 +217,7 @@
                     this.getPets();
                     })
                 .catch(error => {
-                    console.log(error);
+                    console.error(error);
                 })
             },
             updatePet: function () {
@@ -248,7 +248,7 @@
                     .then(response => {
                         this.image = response.data;
                     }).catch(error => {
-                        console.log(error);
+                        console.error(error);
                     })
             },
             filterPet: function (){
@@ -302,6 +302,9 @@
         border:none;
         border-radius: 8px;
         box-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.1);
+    }
+    .card.infopet{
+        width: 18rem;
     }
     .card:hover {
         box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.3);
