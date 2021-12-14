@@ -38,10 +38,10 @@
 
                 this.verifyToken();
                 let token = localStorage.getItem("token_access");
-	      let userId = jwt_decode(token).user_id.toString();
+
+	              let userId = jwt_decode(token).user_id.toString();
                 localStorage.setItem("idUser",userId);  
                 console.log(this.userDetailById);
-
 		if(this.userDetailById.name && this.userDetailById.email){
 		    this.name = this.userDetailById.name;
 		    this.email = this.userDetailById.email;
@@ -68,7 +68,6 @@
 		})
 		.then(result =>{ localStorage.setItem("token_access", result.data.refreshToken.access);})
 		.catch(error => { 
-   		    console.log("DEBUG "+error);
 		    this.$emit('logOut');
 		});
 

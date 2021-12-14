@@ -12,7 +12,7 @@
     <h2 class="req-h2"> We have found {{num_requests}} requests!</h2>
     <div class="row row-cols-1 row-cols-md-2 g-4 req-group">
 
-   	  <div class="col" v-for="req in req_list" :key="req.id_"> <!-- Template for aproval or denial-->
+   	  <div class="col" v-for="(req, index) in req_list" :key="req.id_"> <!-- Template for aproval or denial-->
 	      <div class="card req-card">
        		<h4 class="card-header text-center">{{req.nombres}}'s request</h4>
 	        <div class="card-body">
@@ -35,15 +35,15 @@
 		            <p class="card-text"><b>Recommended:</b> {{req.recomendado ? "Yes" : "No"}}</p>
 		          </div>
 		          <div class="col-md-6">
-        	            <h5 class="card-title">Adoption for {{req.name}}</h5>
-		            <p class="card-text"><b>Name:</b> {{req.name}}</p>
-		            <p class="card-text"><b>Description:</b> {{req.description}}</p>
-		            <p class="card-text"><b>Gender:</b> {{req.gender}}</p>
-		            <p class="card-text"><b>Species:</b> {{req.specie}}</p>
-		            <p class="card-text"><b>Breed:</b> {{req.breed}}</p>
-			    <p class="card-text"><b>Birthday:</b> {{req.bday_aprox}}</p>
-			    <p class="card-text"><b>Registered on:</b> {{req.date_register}}</p>
-			    <p class="card-text"><b>Available:</b> {{ req.avaliable ? "Yes" : "No" }}</p>
+        	            <h5 class="card-title">Adoption for {{req["0"].name}}</h5>
+		            <p class="card-text"><b>Name:</b> {{req["0"].name}}</p>
+		            <p class="card-text"><b>Description:</b> {{req["0"].description}}</p>
+		            <p class="card-text"><b>Gender:</b> {{req["0"].gender}}</p>
+		            <p class="card-text"><b>Species:</b> {{req["0"].specie}}</p>
+		            <p class="card-text"><b>Breed:</b> {{req["0"].breed}}</p>
+			    <p class="card-text"><b>Birthday:</b> {{req["0"].bday_aprox}}</p>
+			    <p class="card-text"><b>Registered on:</b> {{req["0"].date_register}}</p>
+			    <p class="card-text"><b>Available:</b> {{ req["0"].avaliable ? "Yes" : "No" }}</p>
 		          </div>
 		        </div>
 
@@ -64,7 +64,6 @@
 
 <script>
 
-   import axios from 'axios';
    import gql from "graphql-tag";
 
    export default {
@@ -80,6 +79,8 @@
 	    customersDetailByUsername: [],
 	    petsAPI: [],
 	    req_list: [],
+
+	    pet_id : -1,
 
 	    u_id: parseInt(localStorage.getItem("idUser")) || -1,
 	    u_name:  localStorage.getItem("username") || "",
@@ -120,6 +121,7 @@
              query: gql`
 	            query PetsAPI {
                         petsAPI {
+			    id_pet
                             name
                             gender
                             breed
@@ -139,13 +141,10 @@
       methods:{
 
            get_requests: function(){
-	      console.log("DEBUG adoptions GR customersDetailByUsername "+JSON.stringify(this.customersDetailByUsername));
-         	  console.log("DEBUG adoptions GR PetsAPI "+JSON.stringify(this.petsAPI));
-	          console.log("DEBUG adoptions GR customersDetailByUsername "+typeof(this.customersDetailByUsername));
 	     try{
-	         this.req_list = this.obtain_organized_requests(JSON.parse(JSON.stringify(this.customersDetailByUsername)));
-                 this.requests = true;
-	     } catch (error){
+	         this.obtain_organized_requests(JSON.parse(JSON.stringify(this.customersDetailByUsername)));
+		 if(this.num_requests > 0) {this.requests = true;}
+	     }catch (error){
 	         console.error(error); 
 	         this.requests = false;
 	     }
@@ -161,48 +160,28 @@
 	   },
 
            obtain_organized_requests: function( all_requests ){
-		console.log("DDDD "+all_requests);
-		console.log("DDDD "+typeof(all_requests));
-	       return all_requests.map( request => {
-		   console.log("AAAA "+request);
-		   console.log("AAAA "+typeof(request));
-		   console.log("AAAA "+JSON.stringify(request));
-                   Object.assign(request, this.obtain_pet(request.idMascota));
+	       all_requests.map( request => {
+		   this.pet_id = request.idMascota;
+                   Object.assign(request, this.obtain_pet());
+		   this.req_list.push(request);
 	       }); 
 
 	   },
 
-           obtain_pet: function( pet_id_ ){
-
-		console.log("EEEEX "+pet_id_);
-
-		console.log("AEX "+JSON.stringify(this.petsAPI));
-		console.log("AEX "+typeof(JSON.stringify(this.petsAPI)));
-		console.log("AEX "+JSON.parse(JSON.stringify(this.petsAPI)));
-
-		for (const pet in JSON.parse(JSON.stringify(this.petsAPI))){
-		    console.log("XXX "+pet);
-		    console.log("XXX "+typeof(pet));
-		    console.log("XXX "+JSON.stringify(pet));
-		    if ( pet_id_ === pet.id_pet ){
-		        console.log("EEEEXX "+pet);
-		        console.log("EEEEXX "+typeof(pet));
-		        console.log("EEEEXX "+JSON.stringify(pet));
-		        return pet
-	             }}
+           obtain_pet: function( ){
+               
+		return JSON.parse(JSON.stringify(this.petsAPI))
+			.filter( ( value ) => {
+			    if(value.id_pet == this.pet_id)
+			        this.num_requests++;
+                            return value.id_pet == this.pet_id;
+			});
 	   },
 	   
 	},
 
       mounted: function(){
-          console.info("DEBUG requests: "+this.requests+"\n"
-	               +"user id: "+this.u_id);
-	  console.info("DEBUG adoptions username: "+this.u_name);
-	  console.log("DEBUG adoptions customersDetailByUsername "+JSON.stringify(this.customersDetailByUsername));
-	  console.log("DEBUG adoptions PetsAPI "+JSON.stringify(this.petsAPI));
-	  console.log("DEBUG adoptions PetsAPI "+typeof(this.petsAPI));
 	  this.get_requests();
-	  console.log("DEBUG adoptions requests "+JSON.stringify(this.req_list));
 
       },
 
@@ -216,9 +195,6 @@
 
 <style scoped>
 
-.no.search-requests{
-
-}
 
 .body-requests{
    background-color: #f7f7f9;

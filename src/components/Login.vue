@@ -68,9 +68,7 @@
                  })
 
                 .catch((error) => {
-	              	 console.log(error);
                          alert("ERROR 401: Wrong credentials");
-		     
 	         });
             },
 
