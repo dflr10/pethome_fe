@@ -98,13 +98,14 @@
             loadAdoptions: function () {
                 this.$router.push({ name: "adoptions" });
             },
+            loadAvaliables: function () {
+                this.$router.push({ name: "avaliables" });
+            },
             logOut: function () {
                 localStorage.clear();
                 this.verifyAuth();
             },
             completedLogIn: function(data) {
-
-	        console.log("DEBUG App: "+data);
 
                 localStorage.setItem("isAuth", true);
                 localStorage.setItem("username", data.username);
