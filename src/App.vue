@@ -19,6 +19,9 @@
                         <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" v-on:click="navbarCollapse(), loadPet()"> Pets </button>
                     </li>
                     <li>
+                        <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" v-on:click="navbarCollapse(), loadAdoptions()"> Requests </button>
+                    </li>
+                    <li>
                         <button class="btn btn-primary btn-lg btn-block" v-if="is_auth" v-on:click="navbarCollapse(), logOut()"> Log Out </button>
                     </li>
                     <li>
@@ -60,6 +63,7 @@
 </template>
 
 <script>
+    import jwt_decode from "jwt-decode";
     export default {
         name: 'App',
         data: function () {
@@ -73,7 +77,7 @@
         methods: {
             verifyAuth: function () {
                 this.is_auth = localStorage.getItem("isAuth") || false;
-                if (this.is_auth == false){
+                if ( !this.is_auth ){
                     this.$router.push({ name: "login" });
                 }else{
                     this.$router.push({ name: "home" });
@@ -91,18 +95,25 @@
             loadPet: function () {
                 this.$router.push({ name: "pet" });
             },
-            loadAvaliables: function () {
-                this.$router.push({ name: "avaliables" });
+            loadAdoptions: function () {
+                this.$router.push({ name: "adoptions" });
             },
             logOut: function () {
-            localStorage.clear();
-            this.verifyAuth();
+                localStorage.clear();
+                this.verifyAuth();
             },
             completedLogIn: function(data) {
+
+	        console.log("DEBUG App: "+data);
+
                 localStorage.setItem("isAuth", true);
                 localStorage.setItem("username", data.username);
                 localStorage.setItem("token_access", data.token_access);
                 localStorage.setItem("token_refresh", data.token_refresh);
+                
+                const userId = jwt_decode(localStorage.getItem("token_access")).user_id.toString();
+   	        localStorage.setItem("idUser",userId);
+
                 this.verifyAuth();
             },
             completedSignUp: function(data) {
@@ -114,7 +125,6 @@
         },
         created: function () {
             this.verifyAuth();
-            this.loadAvaliables();
         },
     }
 

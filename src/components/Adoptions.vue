@@ -1,0 +1,356 @@
+<template>
+
+<div class="body-requests">
+    
+  <div v-if="!requests" class = "container div-center">
+        <img class="vector-image" src="@/assets/norequests.webp" alt="">
+        <p class="information-starry" >There are not adoption requests yet</p>
+  </div>
+
+
+  <div class="container" v-if="requests">
+    <h2 class="req-h2"> We have found {{num_requests}} requests!</h2>
+    <div class="row row-cols-1 row-cols-md-2 g-4 req-group">
+
+   	  <div class="col" v-for="req in req_list" :key="req.id_"> <!-- Template for aproval or denial-->
+	      <div class="card req-card">
+       		<h4 class="card-header text-center">{{req.nombres}}'s request</h4>
+	        <div class="card-body">
+                        <img src="https://www.monitorexpresso.com/wp-content/uploads/2019/01/Perrito-ponerania.png" class="img-fluid rounded-start req-img" alt="imagen">
+		        <div class="row about">
+		          <div class="col-md-6 person">
+		            <h5 class="card-title">{{req.nombres}} {{req.apellidos}}</h5>
+		            <p class="card-text"><b>First names:</b> {{req.nombres}}</p>
+		            <p class="card-text"><b>Second names:</b> {{req.apellidos}}</p>
+		            <p class="card-text"><b>Legal id:</b> {{req.cedula}}</p>
+		            <p class="card-text"><b>Phone number:</b> {{req.celular}}</p>
+		            <p class="card-text"><b>Email:</b> {{req.correo}}</p>
+		            <p class="card-text"><b>Neighbour:</b> {{req.barrio}}</p>
+		            <p class="card-text"><b>Adress:</b> {{req.direccion}}</p>
+		            <p class="card-text"><b>Owns a house:</b> {{req.casapropia ? "Yes" : "No"}}</p>
+		            <p class="card-text"><b>Remote job:</b> {{req.homejob ? "Yes" : "No"}}</p>
+		            <p class="card-text"><b>Pet carer:</b> {{req.cuidador ? "Yes" : "No"}}</p>
+		            <p class="card-text"><b>Salary:</b> {{req.salario}}</p>
+		            <p class="card-text"><b>Pets owned:</b> {{req.numMascotas}}</p>
+		            <p class="card-text"><b>Recommended:</b> {{req.recomendado ? "Yes" : "No"}}</p>
+		          </div>
+		          <div class="col-md-6">
+        	            <h5 class="card-title">Adoption for {{req.name}}</h5>
+		            <p class="card-text"><b>Name:</b> {{req.name}}</p>
+		            <p class="card-text"><b>Description:</b> {{req.description}}</p>
+		            <p class="card-text"><b>Gender:</b> {{req.gender}}</p>
+		            <p class="card-text"><b>Species:</b> {{req.specie}}</p>
+		            <p class="card-text"><b>Breed:</b> {{req.breed}}</p>
+			    <p class="card-text"><b>Birthday:</b> {{req.bday_aprox}}</p>
+			    <p class="card-text"><b>Registered on:</b> {{req.date_register}}</p>
+			    <p class="card-text"><b>Available:</b> {{ req.avaliable ? "Yes" : "No" }}</p>
+		          </div>
+		        </div>
+
+		        <div class="div-center group-btns">
+	                  <button type="button" class="btn btn-primary mx-2 btn-request" @click="aprove_request">Aprove</button>
+	                  <button type="button" class="btn btn-primary mx-2 btn-request" @click="delete_request">Deny</button>
+		        </div>
+		    </div>
+	        </div>
+        </div> <!--card template-->
+
+     </div>
+  </div>
+
+</div>
+
+</template>
+
+<script>
+
+   import axios from 'axios';
+   import gql from "graphql-tag";
+
+   export default {
+
+      name: "adoptions",
+
+      data: function(){ return {
+            requests: false,
+	    num_requests: 0,
+            
+            pets_api: "https://pethomemintic-be.herokuapp.com",
+
+	    customersDetailByUsername: [],
+	    petsAPI: [],
+	    req_list: [],
+
+	    u_id: parseInt(localStorage.getItem("idUser")) || -1,
+	    u_name:  localStorage.getItem("username") || "",
+	}
+      },
+
+      apollo: {
+          customersDetailByUsername: {
+              query: gql`
+    	             query CustomersDetailByUsername($username: String!) {
+                         customersDetailByUsername(username: $username) {
+                             salario
+                             recomendado
+                             username
+                             numMascotas
+                             nombres
+                             id_
+                             homejob
+                             direccion
+                             cuidador
+                             correo
+                             celular
+                             cedula
+                             casapropia
+                             barrio
+                             apellidos
+                             idMascota
+                         }
+                    }
+	   `,
+	    variables(){
+	        return {
+                    username: this.u_id.toString(),
+		}
+	    }
+	  },
+          petsAPI: {
+             query: gql`
+	            query PetsAPI {
+                        petsAPI {
+                            name
+                            gender
+                            breed
+                            specie
+                            bday_aprox
+                            date_register
+                            description
+                            avaliable
+                        }
+                    }
+	  `,
+	    variables(){
+	    }
+          }
+      },
+
+      methods:{
+
+           get_requests: function(){
+	      console.log("DEBUG adoptions GR customersDetailByUsername "+JSON.stringify(this.customersDetailByUsername));
+         	  console.log("DEBUG adoptions GR PetsAPI "+JSON.stringify(this.petsAPI));
+	          console.log("DEBUG adoptions GR customersDetailByUsername "+typeof(this.customersDetailByUsername));
+	     try{
+	         this.req_list = this.obtain_organized_requests(JSON.parse(JSON.stringify(this.customersDetailByUsername)));
+                 this.requests = true;
+	     } catch (error){
+	         console.error(error); 
+	         this.requests = false;
+	     }
+
+	   },
+
+           delete_request: function( email, username ){
+	      console.info(" Petition denied! ");
+	   },
+
+           aprove_request: function(){
+              console.info(" Petition aproved! ");
+	   },
+
+           obtain_organized_requests: function( all_requests ){
+		console.log("DDDD "+all_requests);
+		console.log("DDDD "+typeof(all_requests));
+	       return all_requests.map( request => {
+		   console.log("AAAA "+request);
+		   console.log("AAAA "+typeof(request));
+		   console.log("AAAA "+JSON.stringify(request));
+                   Object.assign(request, this.obtain_pet(request.idMascota));
+	       }); 
+
+	   },
+
+           obtain_pet: function( pet_id_ ){
+
+		console.log("EEEEX "+pet_id_);
+
+		console.log("AEX "+JSON.stringify(this.petsAPI));
+		console.log("AEX "+typeof(JSON.stringify(this.petsAPI)));
+		console.log("AEX "+JSON.parse(JSON.stringify(this.petsAPI)));
+
+		for (const pet in JSON.parse(JSON.stringify(this.petsAPI))){
+		    console.log("XXX "+pet);
+		    console.log("XXX "+typeof(pet));
+		    console.log("XXX "+JSON.stringify(pet));
+		    if ( pet_id_ === pet.id_pet ){
+		        console.log("EEEEXX "+pet);
+		        console.log("EEEEXX "+typeof(pet));
+		        console.log("EEEEXX "+JSON.stringify(pet));
+		        return pet
+	             }}
+	   },
+	   
+	},
+
+      mounted: function(){
+          console.info("DEBUG requests: "+this.requests+"\n"
+	               +"user id: "+this.u_id);
+	  console.info("DEBUG adoptions username: "+this.u_name);
+	  console.log("DEBUG adoptions customersDetailByUsername "+JSON.stringify(this.customersDetailByUsername));
+	  console.log("DEBUG adoptions PetsAPI "+JSON.stringify(this.petsAPI));
+	  console.log("DEBUG adoptions PetsAPI "+typeof(this.petsAPI));
+	  this.get_requests();
+	  console.log("DEBUG adoptions requests "+JSON.stringify(this.req_list));
+
+      },
+
+      created: function(){ 
+	    this.$apollo.queries.customersDetailByUsername.refetch();
+	    this.$apollo.queries.petsAPI.refetch();
+	 }
+   }
+
+</script>
+
+<style scoped>
+
+.no.search-requests{
+
+}
+
+.body-requests{
+   background-color: #f7f7f9;
+   min-height: inherit; 
+   padding-top: 3em;
+   padding-bottom: 1em;
+}
+
+.vector-image{
+   border-radius: 10px;
+   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.req-h2 {
+   text-align: center; 
+}
+
+.div-center  {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   padding: 4em 2em 2em 2em;
+}
+
+.group-btns{
+  flex-direction: row;
+  padding: 0;
+  justify-content: center;
+}
+
+.div-center .information-starry{
+   color: #5c635f;
+   font-weight: bold;
+   font-size: 1.2em; 
+   padding: 1em;
+   
+   animation: starry 2.2s infinite linear;
+}
+
+.req-group{
+   margin-right: 0px;
+   margin-left: 0px;
+}
+
+.req-card{
+  border-radius: 1em;
+}
+
+.req-card .about{
+  margin-top: 1em;
+}
+
+.req-card .person{
+  border-right: 2px #c5c7cb solid;
+}
+
+.card-header{
+  background-color: rgba(0,0,0,0);
+  border-bottom: none;
+}
+
+.group-btns{
+      margin-top: 2rem;  
+}
+
+.btn-request{
+  width: 6em;
+  color: white;
+  border: none;
+  -webkit-text-stroke: 0px #8E54E9;
+  background-color: #8E54E9;
+  padding:0.5rem 0.9rem;
+  border-radius: 8px;
+  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
+  font-weight: 400;
+}
+
+.btn-request:hover {
+  background-color: #7f3de9;
+  transition: all 0.2s ease-in-out;
+  transform: translateY(-0.5px) scale(1.05);
+  cursor: pointer;
+}
+
+ @keyframes starry{
+    0%   {
+           color: #5c635f;
+	   transform: rotate(0deg);
+	 }
+    25%  {
+	   transform: rotate(5deg);
+         }
+    33%  {
+           color: #8D54E9;
+         }
+    50%  {
+	   transform: rotate(0deg);
+         }
+    66%  { 
+           color: #4876E6; 
+	 }
+    75%  {
+           transform: rotate(-5deg);
+         }
+    100% {
+           color: #5c635f;
+	   transform: rotate(0deg);
+	 }
+ }
+
+ @media screen and (max-width: 750px) {
+
+   .body-requests{
+      padding-top: 1em;
+    }
+
+   .information-starry{
+      text-align: center; 
+    }
+
+   .row > div, .group-btns{
+      margin-top: 2rem;  
+    }
+
+   .req-card .person{
+      border-right: none;
+      border-top: 2px #c5c7cb solid;
+    }
+
+    .req-card .row{
+      flex-direction: column-reverse;		
+    }
+ }
+
+</style>
