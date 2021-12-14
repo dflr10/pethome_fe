@@ -104,8 +104,6 @@
             },
             completedLogIn: function(data) {
 
-	        console.log("DEBUG App: "+data);
-
                 localStorage.setItem("isAuth", true);
                 localStorage.setItem("username", data.username);
                 localStorage.setItem("token_access", data.token_access);

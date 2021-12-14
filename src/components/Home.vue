@@ -37,11 +37,6 @@
 
                 this.verifyToken();
                 let token = localStorage.getItem("token_access");
-
-		console.log("DEBUG home: "+JSON.stringify(jwt_decode(token)));
-		console.log("DEBUG home: "+token);
-		console.log("DEBUG home token refresh: "+JSON.stringify(jwt_decode(localStorage.getItem("token_refresh"))));
-		console.log("DEBUG home token refresh: "+localStorage.getItem("token_refresh"));
 	        
 		if(this.userDetailById.name && this.userDetailById.email){
 		    this.name = this.userDetailById.name;
@@ -69,7 +64,6 @@
 		})
 		.then(result =>{ localStorage.setItem("token_access", result.data.refreshToken.access);})
 		.catch(error => { 
-   		    console.log("DEBUG "+error);
 		    this.$emit('logOut');
 		});
 
@@ -91,8 +85,6 @@
 	  }
         },
         created: function () {
-	    console.info("DEBUG: "+this.userDetailById.name)
-	    console.info("DEBUG home names: "+this.name);
 	    this.$apollo.queries.userDetailById.refetch();
         },
         mounted: function() {

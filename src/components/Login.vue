@@ -64,14 +64,11 @@
                          token_access: result.data.logIn.access,
                          token_refresh: result.data.logIn.refresh,
                      };
-	     	     console.info("DEBUG Login: "+dataLogIn);
                      this.$emit("completedLogIn", dataLogIn);
                  })
 
                 .catch((error) => {
-	              	 console.log(error);
                          alert("ERROR 401: Wrong credentials");
-		     
 	         });
             },
 

@@ -70,7 +70,6 @@
         methods: {
             processSignUp: async function () {
 
-	        console.log(this.user.username);
 	        await this.$apollo.mutate({
                      mutation: gql`
                                mutation Mutation($userInput: SignUpInput) {
