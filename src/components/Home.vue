@@ -1,8 +1,8 @@
 <template>
         <div class="hero ">
             <div class="hero_home container">
-                <h2 class="information--title" v-if="!this.$apollo.queries.userDetailById.loading" > Welcome <span> {{name}} </span> !</h2>
-                <p class="information">Track your foundation's pets with our secure and reliable system. Never be worried about letting them down!</p>
+                <h2 class="information--title"> Welcome <span> {{name}} </span> !</h2>
+                <p class="information">Keeping track your foundation pets has never been easier and faster!</p>
             </div>
         </div>
 </template>

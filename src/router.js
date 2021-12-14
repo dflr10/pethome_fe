@@ -6,6 +6,7 @@ import SignUp from "./components/SignUp.vue";
 import Home from "./components/Home.vue";
 import Pet from "./components/Pet.vue";
 import Adoptions from "./components/Adoptions.vue"
+import Avaliables from "./components/Avaliables.vue";
 
 const routes = [
   {
@@ -38,9 +39,18 @@ const routes = [
     name: "adoptions",
     component: Adoptions,
   },
+  {
+    path: "/user/avaliables",
+    name: "avaliables",
+    component: Avaliables,
+  },
 ];
+
+
 const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
+
 export default router;
