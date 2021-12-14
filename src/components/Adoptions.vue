@@ -12,7 +12,7 @@
     <h2 class="req-h2"> We have found {{num_requests}} requests!</h2>
     <div class="row row-cols-1 row-cols-md-2 g-4 req-group">
 
-   	  <div class="col" v-for="(req, index) in req_list" :key="req.id_"> <!-- Template for aproval or denial-->
+   	  <div class="col" v-for="(req) in req_list" :key="req.id_"> <!-- Template for aproval or denial-->
 	      <div class="card req-card">
        		<h4 class="card-header text-center">{{req.nombres}}'s request</h4>
 	        <div class="card-body">
