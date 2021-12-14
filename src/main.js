@@ -9,9 +9,8 @@ import { setContext } from 'apollo-link-context';
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-
 const httpLink = createHttpLink({
-    uri: 'https://registerapigateway.herokuapp.com/', // URL APIGATEWAY
+    uri: 'https://gateway-g1-c4-petauth.herokuapp.com/', // URL APIGATEWAY auth, pets
 });
 
 const authLink = setContext((_, { headers }) => {

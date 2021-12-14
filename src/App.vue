@@ -60,6 +60,7 @@
 </template>
 
 <script>
+    import jwt_decode from "jwt-decode";
     export default {
         name: 'App',
         data: function () {
@@ -73,7 +74,7 @@
         methods: {
             verifyAuth: function () {
                 this.is_auth = localStorage.getItem("isAuth") || false;
-                if (this.is_auth == false){
+                if ( !this.is_auth ){
                     this.$router.push({ name: "login" });
                 }else{
                     this.$router.push({ name: "home" });
@@ -96,15 +97,21 @@
             },
             logOut: function () {
                 localStorage.clear();
-                //alert("The session ended");
                 this.verifyAuth();
             },
             completedLogIn: function(data) {
+
+	        console.log("DEBUG App: "+data);
+
                 localStorage.setItem("isAuth", true);
                 localStorage.setItem("username", data.username);
                 localStorage.setItem("token_access", data.token_access);
                 localStorage.setItem("token_refresh", data.token_refresh);
-                //alert("Successful authentication");
+                
+
+                const userId = jwt_decode(localStorage.getItem("token_access")).user_id.toString();
+   	        localStorage.setItem("idUser",userId);
+
                 this.verifyAuth();
             },
             completedSignUp: function(data) {

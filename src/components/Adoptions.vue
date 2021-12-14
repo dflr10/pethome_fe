@@ -77,6 +77,8 @@
             
             pets_api: "https://pethomemintic-be.herokuapp.com",
 
+	    customersDetailByUsername: [],
+	    petsAPI: [],
 	    req_list: [],
 
 	    u_id: parseInt(localStorage.getItem("idUser")) || -1,
@@ -85,43 +87,63 @@
       },
 
       apollo: {
-          req_list : {
+          customersDetailByUsername: {
               query: gql`
-	      query CustomerDetailById($username: String!) {
-                 customersDetailByUsername(username: $username) {
-                  salario
-                  recomendado
-                  username
-                  numMascotas
-                  nombres
-                  id_
-                  homejob
-                  direccion
-                  cuidador
-                  correo
-                  celular
-                  cedula
-                  casapropia
-                  barrio
-                 apellidos
-                 }
-             }
+    	             query CustomersDetailByUsername($username: String!) {
+                         customersDetailByUsername(username: $username) {
+                             salario
+                             recomendado
+                             username
+                             numMascotas
+                             nombres
+                             id_
+                             homejob
+                             direccion
+                             cuidador
+                             correo
+                             celular
+                             cedula
+                             casapropia
+                             barrio
+                             apellidos
+                             idMascota
+                         }
+                    }
 	   `,
 	    variables(){
 	        return {
-                    username: this.u_name,
+                    username: this.u_id.toString(),
 		}
 	    }
-	  }
+	  },
+          petsAPI: {
+             query: gql`
+	            query PetsAPI {
+                        petsAPI {
+                            name
+                            gender
+                            breed
+                            specie
+                            bday_aprox
+                            date_register
+                            description
+                            avaliable
+                        }
+                    }
+	  `,
+	    variables(){
+	    }
+          }
       },
 
       methods:{
 
            get_requests: function(){
-	   
+	      console.log("DEBUG adoptions GR customersDetailByUsername "+JSON.stringify(this.customersDetailByUsername));
+         	  console.log("DEBUG adoptions GR PetsAPI "+JSON.stringify(this.petsAPI));
+	          console.log("DEBUG adoptions GR customersDetailByUsername "+typeof(this.customersDetailByUsername));
 	     try{
-                 const all_pets = this.obtain_all_pets_by_user();
-	         this.req_list = this.obtain_organized_requests( this.req_list, all_pets);
+	         this.req_list = this.obtain_organized_requests(JSON.parse(JSON.stringify(this.customersDetailByUsername)));
                  this.requests = true;
 	     } catch (error){
 	         console.error(error); 
@@ -131,58 +153,72 @@
 	   },
 
            delete_request: function( email, username ){
-
+	      console.info(" Petition denied! ");
 	   },
 
            aprove_request: function(){
-              console.info(" Petition request aproved! ");
+              console.info(" Petition aproved! ");
 	   },
 
-           obtain_all_requests: function(){
-              
-	   },
-
-           obtain_organized_requests: function( all_requests, all_pets ){
-
+           obtain_organized_requests: function( all_requests ){
+		console.log("DDDD "+all_requests);
+		console.log("DDDD "+typeof(all_requests));
 	       return all_requests.map( request => {
-                   Object.assign(request, this.obtain_pet(request.idMascota, all_pets));
+		   console.log("AAAA "+request);
+		   console.log("AAAA "+typeof(request));
+		   console.log("AAAA "+JSON.stringify(request));
+                   Object.assign(request, this.obtain_pet(request.idMascota));
 	       }); 
 
 	   },
 
-           obtain_pet: function( pet_id_, pet_list ){
+           obtain_pet: function( pet_id_ ){
 
-		for (const pet in pet_list)
-		    if ( pet_id === pet.id_pet )
+		console.log("EEEEX "+pet_id_);
+
+		console.log("AEX "+JSON.stringify(this.petsAPI));
+		console.log("AEX "+typeof(JSON.stringify(this.petsAPI)));
+		console.log("AEX "+JSON.parse(JSON.stringify(this.petsAPI)));
+
+		for (const pet in JSON.parse(JSON.stringify(this.petsAPI))){
+		    console.log("XXX "+pet);
+		    console.log("XXX "+typeof(pet));
+		    console.log("XXX "+JSON.stringify(pet));
+		    if ( pet_id_ === pet.id_pet ){
+		        console.log("EEEEXX "+pet);
+		        console.log("EEEEXX "+typeof(pet));
+		        console.log("EEEEXX "+JSON.stringify(pet));
 		        return pet
-
+	             }}
 	   },
 	   
-           obtain_all_pets_by_user: function(){
-
-               axios.get( this.pets_api + "/pet/")
-
-	       .then( response => {
-                   return response.data.filter( pet => pet.user === this.u_id);
-	        })
-
-	       .catch( error => console.error(error))
-
-	   }
-
 	},
 
       mounted: function(){
-          console.info("requests: "+this.requests+"\n"
+          console.info("DEBUG requests: "+this.requests+"\n"
 	               +"user id: "+this.u_id);
+	  console.info("DEBUG adoptions username: "+this.u_name);
+	  console.log("DEBUG adoptions customersDetailByUsername "+JSON.stringify(this.customersDetailByUsername));
+	  console.log("DEBUG adoptions PetsAPI "+JSON.stringify(this.petsAPI));
+	  console.log("DEBUG adoptions PetsAPI "+typeof(this.petsAPI));
+	  this.get_requests();
+	  console.log("DEBUG adoptions requests "+JSON.stringify(this.req_list));
+
       },
 
-      created: function(){  }
+      created: function(){ 
+	    this.$apollo.queries.customersDetailByUsername.refetch();
+	    this.$apollo.queries.petsAPI.refetch();
+	 }
    }
 
 </script>
 
 <style scoped>
+
+.no.search-requests{
+
+}
 
 .body-requests{
    background-color: #f7f7f9;
