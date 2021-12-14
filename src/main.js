@@ -14,10 +14,6 @@ import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const httpLink = createHttpLink({
-  uri: "https://registerapigateway.herokuapp.com/", // URL APIGATEWAY Adoptions, customers
-});
-
-const httpLink2 = createHttpLink({
   uri: "https://gateway-g1-c4-petauth.herokuapp.com/", // URL APIGATEWAY auth, pets
 });
 
@@ -39,17 +35,7 @@ const apolloProvider = new createApolloProvider({
   defaultClient: apolloClient,
 });
 
-const apolloClient2 = new ApolloClient({
-  link: authLink.concat(httpLink2),
-  cache: new InMemoryCache(),
-});
-
-const apolloProvider2 = new createApolloProvider({
-  defaultClient: apolloClient2,
-});
-
 createApp(App)
   .use(router)
   .use(apolloProvider)
-  .use(apolloProvider2)
   .mount("#app");

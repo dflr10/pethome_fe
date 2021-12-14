@@ -1,6 +1,5 @@
 <template>
-    <section class="vh-70 bg-image"
-        style="background-color:#fff;">
+    <section class="vh-70 bg-image signup" >
         <div class="mask d-flex align-items-center h-100 gradient-custom-3">
             <div class="container h-100">
                 <div class="row d-flex justify-content-center align-items-center h-100">
@@ -51,40 +50,57 @@
 </template>
 
 <script>
-    import axios from 'axios';
+
+   import gql from "graphql-tag";
+
     export default {
+
         name: "signup",
+
         data: function () {
             return {
-                deploy_route: "https://pethomemintic-be.herokuapp.com", // ruta heroku -> "https://pethomemintic-be.herokuapp.com" , ruta_local -> "http://127.0.0.1:8000"
-
                 user: {
                     username: "",
                     password: "",
                     name: "",
                     email: "",
                 }
-            }
+            };
         },
         methods: {
-            processSignUp: function () {
-                axios.post(
-                    this.deploy_route + "/user/",
-                    this.user,
-                    { headers: {} }
-                )
-                    .then((result) => {
-                        let dataSignUp = {
-                            username: this.user.username,
-                            token_access: result.data.access,
-                            token_refresh: result.data.refresh,
-                        }
-                        this.$emit('completedSignUp', dataSignUp);
-                    })
-                    .catch((error) => {
-                        console.log(error)
-                        alert("ERROR: Registration error.");
-                    });
+            processSignUp: async function () {
+
+	        console.log(this.user.username);
+	        await this.$apollo.mutate({
+                     mutation: gql`
+                               mutation Mutation($userInput: SignUpInput) {
+                                   signUpUser(userInput: $userInput) {
+                                       refresh
+                                       access
+                                   }
+                               }
+                        `,
+                        variables: {
+                            userInput: this.user,
+                        },
+                 })
+
+                 .then((result) => {
+                      const dataLogin = {
+                          username: this.user.username,
+                          token_access: result.data.signUpUser.access,
+                          token_refresh: result.data.signUpUser.refresh,
+                      };
+                      
+                      
+
+                      this.$emit("completedSignUp", dataLogin);
+                  })
+
+                  .catch((error) => {
+                      alert("ERROR: Registration error"+error);
+                  });
+
             },
             loadLogin: function () {
                 this.$emit("loadLogin");
@@ -95,6 +111,9 @@
 </script>
 
 <style scoped>
+    .signup{
+       background-color: white;
+    }
     .card {
         box-shadow: 3px 3px 5px #999;
         border:none;

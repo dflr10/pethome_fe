@@ -25,44 +25,62 @@
 </template>
 
 <script>
-    import axios from 'axios';
+
+   import gql from "graphql-tag";
+
     export default {
+
         name: "login",
+
         data: function () {
             return {
-                deploy_route: "https://pethomemintic-be.herokuapp.com", // ruta heroku -> "https://pethomemintic-be.herokuapp.com" , ruta_local -> "http://127.0.0.1:8000"
                 user: {
                     username: "",
                     password: ""
                 }
             }
         },
+
         methods: {
-            processLogInUser: function () {
-                axios.post(
-                    this.deploy_route + "/login/",
-                    this.user,
-                    { headers: {} }
-                )
-                    .then((result) => {
-                        let dataLogIn = {
-                            username: this.user.username,
-                            token_access: result.data.access,
-                            token_refresh: result.data.refresh,
-                        }
-                        this.$emit("completedLogIn", dataLogIn);
-                    })
-                    .catch((error) => {
-                        if (error.response.status == "401")
-                            alert("ERROR 401: Wrong credentials.");
-                    });
+            processLogInUser: async function () {
+	        await this.$apollo.mutate({
+
+                    mutation: gql`
+               		  mutation LogIn($credentials: CredentialsInput!) {
+                              logIn(credentials: $credentials) {
+                                  refresh
+                                  access
+                              }
+                          }
+                    `,
+                    variables: {
+                        credentials: this.user,
+                    },
+                })
+
+                .then((result) => {
+                     let dataLogIn = {
+                         username: this.user.username,
+                         token_access: result.data.logIn.access,
+                         token_refresh: result.data.logIn.refresh,
+                     };
+                     this.$emit("completedLogIn", dataLogIn);
+                 })
+
+                .catch((error) => {
+	              	 console.log(error);
+                         alert("ERROR 401: Wrong credentials");
+		     
+	         });
             },
+
             loadSignUp: function () {
                 this.$emit("loadSignUp");
                 this.$router.push({ name: "signup" });
             }
         }
     }
+
 </script>
 
 <style scoped>

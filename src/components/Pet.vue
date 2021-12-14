@@ -125,6 +125,8 @@
 
 <script>
     import axios from 'axios';
+    import gql from "graphql-tag";
+
     export default {
         name: "pet",
         data: function () {
@@ -153,8 +155,29 @@
         },
         methods: {
             getPets: function () {
-                axios.get(this.deploy_route + "/pet/")
+                 this.$apollo.query({
+                    query: gql`
+                        query Query {
+                                petsAPI {
+                                    id_pet
+                                    name
+                                    specie
+                                    breed
+                                    gender
+                                    bday_aprox
+                                    date_register
+                                    description
+                                    image
+                                    avaliable
+                                    user
+                                }
+                            }
+               		  `,
+                    variables: {
+                    },
+                })
                     .then(response => {
+                        console.log(response.data.data.petsAPI);
                         this.pets = response.data;
                         this.user = parseInt(localStorage.getItem('idUser'));
                         this.petsWithoutFilter = this.pets.filter(pet => pet.user === this.user).reverse();

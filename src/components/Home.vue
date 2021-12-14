@@ -1,62 +1,100 @@
 <template>
         <div class="hero ">
             <div class="hero_home container">
-                <h2 class="information--title"> Welcome <span> {{name}} </span> !</h2>
+                <h2 class="information--title" v-if="!this.$apollo.queries.userDetailById.loading" > Welcome <span> {{username}} </span> !</h2>
                 <p class="information">Keeping track your foundation pets has never been easier and faster!</p>
             </div>
         </div>
 </template>
 
 <script>
+
     import jwt_decode from "jwt-decode";
-    import axios from 'axios';
+    import gql from "graphql-tag";
+
     export default {
+
         name: "home",
+
         data: function () {
             return {
-                deploy_route: "https://pethomemintic-be.herokuapp.com", // ruta heroku -> "https://pethomemintic-be.herokuapp.com" , ruta_local -> "http://127.0.0.1:8000"
                 id_user:0,
                 name: "",
                 email: "",
+		userDetailById : {},
                 username: localStorage.getItem('username') || "",
+
                 loaded: false,
             }
         },
+
         methods: {
-            getData: async function () {
+            getData: function () {
+
                 if (localStorage.getItem("token_access") === null || localStorage.getItem("token_refresh") === null) {
                     this.$emit('logOut');
                     return;
                 }
-                await this.verifyToken();
+
+                this.verifyToken();
                 let token = localStorage.getItem("token_access");
-                let userId = jwt_decode(token).user_id.toString();
-                localStorage.setItem("idUser",userId);
-                axios.get(`${this.deploy_route}/user/${userId}/`, { headers: { 'Authorization': `Bearer ${token}` } })
-                    .then((result) => {
-                        this.id_user = result.data.id_user;
-                        this.name = result.data.name;
-                        this.email = result.data.email;
-                        this.loaded = true;
-                    })
-                    .catch(() => {
-                        this.$emit('logOut');
-                    });
-            },
-            verifyToken: function () {
-                return axios.post(this.deploy_route + "/refresh/", { refresh: localStorage.getItem("token_refresh") }, { headers: {} }
-                )
-                    .then((result) => {
-                        localStorage.setItem("token_access", result.data.access);
-                    })
-                    .catch(() => {
-                        this.$emit('logOut');
-                    });
+
+	      let userId = jwt_decode(token).user_id.toString();
+                localStorage.setItem("idUser",userId);  
+                console.log(this.userDetailById);
+		if(this.userDetailById.name && this.userDetailById.email){
+		    this.name = this.userDetailById.name;
+		    this.email = this.userDetailById.email;
+                }
+	    },
+            verifyToken: async function () {
+
+		await this.$apollo.mutate({
+
+                    mutation: gql`
+      		              mutation RefreshToken($token: token!) {
+                                  refreshToken(token: $token) {
+                                      access
+                                  }
+                              }
+                    `,
+
+		    variables: {
+                        token: {
+                             refresh: localStorage.getItem("token_refresh"),
+                        },
+		    },
+
+		})
+		.then(result =>{ localStorage.setItem("token_access", result.data.refreshToken.access);})
+		.catch(error => { 
+   		    console.log("DEBUG "+error);
+		    this.$emit('logOut');
+		});
+
             }
         },
-        created: async function () {
-            this.getData();
+        apollo: {
+          userDetailById: {
+              query: gql`
+                 query UserDetailById($userId: Int!) {
+                    userDetailById(userId: $userId) {
+                       name
+                       email
+                    }
+                 }
+	      `,
+	      variables(){
+	        return {userId: parseInt(localStorage.getItem("idUser")),}
+	      },
+	  }
         },
+        created: function () {
+	    this.$apollo.queries.userDetailById.refetch();
+        },
+        mounted: function() {
+            this.getData();
+	}
     }
 </script>
 
