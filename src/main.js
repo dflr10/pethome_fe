@@ -10,7 +10,7 @@ import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const httpLink = createHttpLink({
-    uri: 'https://gateway-g1-c4-petauth.herokuapp.com/', // URL APIGATEWAY auth, pets
+  uri: "https://gateway-g1-c4-petauth.herokuapp.com/", // URL APIGATEWAY auth, pets
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -28,7 +28,10 @@ const apolloClient = new ApolloClient({
 });
 
 const apolloProvider = new createApolloProvider({
-   defaultClient: apolloClient
+  defaultClient: apolloClient,
 });
 
-createApp(App).use(router).use(apolloProvider).mount("#app");
+createApp(App)
+  .use(router)
+  .use(apolloProvider)
+  .mount("#app");

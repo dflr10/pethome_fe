@@ -1,7 +1,7 @@
 <template>
         <div class="hero ">
             <div class="hero_home container">
-                <h2 class="information--title"> Welcome <span> {{name}} </span> !</h2>
+                <h2 class="information--title" v-if="!this.$apollo.queries.userDetailById.loading" > Welcome <span> {{username}} </span> !</h2>
                 <p class="information">Keeping track your foundation pets has never been easier and faster!</p>
             </div>
         </div>
@@ -18,6 +18,7 @@
 
         data: function () {
             return {
+                id_user:0,
                 name: "",
                 email: "",
 		userDetailById : {},
@@ -37,7 +38,10 @@
 
                 this.verifyToken();
                 let token = localStorage.getItem("token_access");
-	        
+
+	              let userId = jwt_decode(token).user_id.toString();
+                localStorage.setItem("idUser",userId);  
+                console.log(this.userDetailById);
 		if(this.userDetailById.name && this.userDetailById.email){
 		    this.name = this.userDetailById.name;
 		    this.email = this.userDetailById.email;

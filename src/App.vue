@@ -98,6 +98,9 @@
             loadAdoptions: function () {
                 this.$router.push({ name: "adoptions" });
             },
+            loadAvaliables: function () {
+                this.$router.push({ name: "avaliables" });
+            },
             logOut: function () {
                 localStorage.clear();
                 this.verifyAuth();

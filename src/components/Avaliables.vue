@@ -147,7 +147,7 @@ eL CENTRO DE ADOPCIÓN SE PONDRÁ EN CONTACTO CON ESTA PERSONA POR MEDIO EXTERNO
                                         <input type="number" class="form-control" v-model="numMascotas" aria-required="true" placeholder="1,2,3..." >
                                     </div>
                                 </div>
-                                    <button type="button" v-if="id_pet!=0" v-on:click="sendAdoptionRequest(id_pet)" class="btn btn-update btn-primary" data-bs-dismiss="modal" aria-label="Close">Send adoption request</button>
+                                    <button type="button" v-if="id_pet!=0" v-on:click="sendAdoptionRequest" class="btn btn-update btn-primary" data-bs-dismiss="modal" aria-label="Close">Send adoption request</button>
                             </form>
                         </div>
                     </div>
@@ -159,6 +159,8 @@ eL CENTRO DE ADOPCIÓN SE PONDRÁ EN CONTACTO CON ESTA PERSONA POR MEDIO EXTERNO
 
 <script>
     import axios from 'axios';
+    import gql from "graphql-tag";
+
     export default {
         name: "avaliables",
         data: function () {
@@ -182,6 +184,7 @@ eL CENTRO DE ADOPCIÓN SE PONDRÁ EN CONTACTO CON ESTA PERSONA POR MEDIO EXTERNO
                 image: "noImage.png",
                 user:0,
 
+                _id:"",
                 username:"",
                 nombres:"",
                 apellidos:"",
@@ -190,16 +193,18 @@ eL CENTRO DE ADOPCIÓN SE PONDRÁ EN CONTACTO CON ESTA PERSONA POR MEDIO EXTERNO
                 correo:"",
                 barrio:"",
                 direccion:"",
+                idMascota:0,
                 casapropia:false,
                 homejob:false,
                 cuidador:false,
                 salario:0,
                 numMascotas:0,
-                recomendado:false
+                recomendado:false,
             }
         },
         methods: {
             getAvaliablePets: function () {
+                //Cambiar de axios a gql
                 axios.get(this.deploy_route + "/pet/")
                     .then(response => {
                         this.pets = response.data;
@@ -227,10 +232,59 @@ eL CENTRO DE ADOPCIÓN SE PONDRÁ EN CONTACTO CON ESTA PERSONA POR MEDIO EXTERNO
                 this.description = pet.description;
                 this.image = pet.image;
                 this.user = pet.user;
+                this.idMascota = this.id_pet;
             },
-            sendAdoptionRequest: function (id_pet) {
-              this.setUsername();
-                },
+            sendAdoptionRequest: async function () {
+	            await this.$apollo.mutate({
+                    mutation: gql`
+               		  mutation CreateCustomer($custommInput: customInput!) {
+                        createCustomer(custommInput: $custommInput) {
+                            id_
+                            username
+                            nombres
+                            apellidos
+                            cedula
+                            celular
+                            correo
+                            barrio
+                            direccion
+                            idMascota
+                            casapropia
+                            homejob
+                            cuidador
+                            salario
+                            numMascotas
+                            recomendado
+                        }
+                    }`,
+                    variables: {
+                        "custommInput":{
+                            "username": this.user+"",
+                            "nombres": this.nombres,
+                            "apellidos": this.apellidos,
+                            "cedula": this.cedula,
+                            "celular": this.celular,
+                            "correo": this.correo,
+                            "barrio": this.barrio,
+                            "direccion": this.direccion,
+                            "idMascota": this.idMascota,
+                            "casapropia": this.casapropia,
+                            "homejob": this.homejob,
+                            "cuidador": this.cuidador,
+                            "salario": this.salario,
+                            "numMascotas": this.numMascotas,
+                            "recomendado": this.recomendado,
+                            "id_": this.user+this.correo,
+                        }
+                    },
+                })
+                .then((result) => {
+	     	     console.info(result);
+                 })
+                .catch((error) => {
+	            console.log(error);
+	         });
+            },
             arePetsAvaliablesEmpty: function () {
                 return this.avaliablePets.length<=0;
             },
