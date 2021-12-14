@@ -204,10 +204,30 @@ eL CENTRO DE ADOPCIÓN SE PONDRÁ EN CONTACTO CON ESTA PERSONA POR MEDIO EXTERNO
         },
         methods: {
             getAvaliablePets: function () {
-                //Cambiar de axios a gql
-                axios.get(this.deploy_route + "/pet/")
+                 this.$apollo.query({
+                    query: gql`
+                        query Query {
+                                petsAPI {
+                                    id_pet
+                                    name
+                                    specie
+                                    breed
+                                    gender
+                                    bday_aprox
+                                    date_register
+                                    description
+                                    image
+                                    avaliable
+                                    user
+                                }
+                            }
+               		  `,
+                    variables: {
+                    },
+                })
                     .then(response => {
-                        this.pets = response.data;
+                        this.pets = response.data.petsAPI;
+                        console.log(this.pets);
                         this.avaliablePets = this.pets.filter(pet => pet.avaliable).reverse();
                         this.pets=this.avaliablePets;
                         this.loaded = true;

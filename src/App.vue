@@ -258,7 +258,7 @@
         transition: all 0.2s ease-in-out;
     }
 
-    @media screen and (max-width: 868px) {
+    @media screen and (max-width: 900px) {
         .header{
             display: inline-block;
         }

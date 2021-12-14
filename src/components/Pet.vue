@@ -177,8 +177,7 @@
                     },
                 })
                     .then(response => {
-                        console.log(response.data.data.petsAPI);
-                        this.pets = response.data;
+                        this.pets = response.data.petsAPI;
                         this.user = parseInt(localStorage.getItem('idUser'));
                         this.petsWithoutFilter = this.pets.filter(pet => pet.user === this.user).reverse();
                         this.pets=this.petsWithoutFilter;
@@ -188,7 +187,8 @@
                         console.error(error);
                     })
             },
-            addPet: function () {
+            addPet:
+             function () {
                 this.modalTitle = "Add Pet";
                 this.id_pet = 0;
                 this.name = "";
@@ -223,19 +223,27 @@
             adoptPet: function () {
                 this.avaliable = !this.avaliable;
             },
-            createPet: function () {
-                axios.post(this.deploy_route + "/pet/", {
-                    name: this.name,
-                    specie: this.specie,
-                    breed: this.breed,
-                    gender: this.gender,
-                    bday_aprox: this.bday_aprox,
-                    date_register: this.date_register,
-                    avaliable: this.avaliable,
-                    description: this.description,
-                    image: this.image,
-                    user: this.user
-            },)
+            createPet: async function () {
+               await this.$apollo.mutate({
+                    mutation: gql`
+                        mutation PetAPI($petInput: setpet!) {
+                            petAPI(petInput: $petInput)
+                        }`,
+                        variables: {
+                            "petInput": {
+                                "name": this.name,
+                                "specie": this.specie,
+                                "breed": this.breed,
+                                "gender": this.gender,
+                                "bday_aprox": this.bday_aprox,
+                                "date_register": this.date_register,
+                                "description": this.description,
+                                "avaliable": this.avaliable,
+                                "image": this.image,
+                                "user": this.user
+                                }
+                    },
+                })
                 .then(response => {
                     this.getPets();
                     })
@@ -243,20 +251,27 @@
                     console.error(error);
                 })
             },
-            updatePet: function () {
-                axios.put(this.deploy_route + "/pet/", {
-                    id_pet: this.id_pet,
-                    name: this.name,
-                    specie: this.specie,
-                    breed: this.breed,
-                    gender: this.gender,
-                    bday_aprox: this.bday_aprox,
-                    date_register: this.date_register,
-                    avaliable: this.avaliable,
-                    description: this.description,
-                    image: this.image,
-                    user: this.user
-            },)
+            updatePet: async function () {
+               await this.$apollo.mutate({
+                    mutation: gql`
+                        mutation UpdatePetAPI($petUpdateInput: updatePet!) {
+                        updatePetAPI(petUpdateInput: $petUpdateInput)}`,
+                        variables: {
+                            "petUpdateInput": {
+                                    "id_pet": this.id_pet,
+                                    "name": this.name,
+                                    "specie": this.specie,
+                                    "breed": this.breed,
+                                    "gender": this.gender,
+                                    "bday_aprox": this.bday_aprox,
+                                    "date_register": this.date_register,
+                                    "description": this.description,
+                                    "image": this.image,
+                                    "avaliable": this.avaliable,
+                                    "user": this.user
+                            }
+                        },
+                })
                 .then(response => {
                     this.getPets();
                     })
@@ -287,17 +302,28 @@
                     }
                 );
             },
-            deletePet: function (id) {
+
+            deletePet: async function (delete_id) {
                 if(!confirm("Are you sure you want to delete this pet?")){
                     return;
-                }
-                axios.delete(this.deploy_route + "/pet/" + id +'/')
-                    .then(response => {
-                        this.getPets();
+                }else{
+                  await this.$apollo.mutate({
+                    mutation: gql`
+                      mutation DeletePetAPI($idPet: String!) {
+                        deletePetAPI(id_pet: $idPet)}`,
+                        variables: {
+                               "idPet": ""+delete_id
+                        },
+                   })
+                   .then(response => {
+                      this.getPets();
                     })
                     .catch(error => {
-                        console.log(error);
-                    })
+                      console.log(error);
+                    });
+
+                }
+
             },
             isPetsWithoutFilterEmpty: function () {
                 return this.petsWithoutFilter.length<=0;

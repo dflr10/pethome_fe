@@ -41,7 +41,6 @@
 
 	              let userId = jwt_decode(token).user_id.toString();
                 localStorage.setItem("idUser",userId);  
-                console.log(this.userDetailById);
 		if(this.userDetailById.name && this.userDetailById.email){
 		    this.name = this.userDetailById.name;
 		    this.email = this.userDetailById.email;
