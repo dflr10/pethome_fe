@@ -128,6 +128,7 @@
                             specie
                             bday_aprox
                             date_register
+                            image
                             description
                             avaliable
                         }
