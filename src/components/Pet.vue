@@ -371,7 +371,7 @@
     li strong {
         color: rgb(89, 92, 110);
     }
-    img{
+    img:not(.loading){
         width: 100%;
         height: auto;
         border-radius: 8px;
