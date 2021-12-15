@@ -16,7 +16,7 @@
 	      <div class="card req-card">
        		<h4 class="card-header text-center">{{req.nombres}}'s request</h4>
 	        <div class="card-body">
-                        <img src="https://www.monitorexpresso.com/wp-content/uploads/2019/01/Perrito-ponerania.png" class="img-fluid rounded-start req-img" alt="imagen">
+                        <img :src="imagePath + req['0'].image" class="img-fluid rounded-start req-img" alt="imagen">
 		        <div class="row about">
 		          <div class="col-md-6 person">
 		            <h5 class="card-title">{{req.nombres}} {{req.apellidos}}</h5>
@@ -75,6 +75,7 @@
 	    num_requests: 0,
             
             pets_api: "https://pethomemintic-be.herokuapp.com",
+            imagePath:"https://pethomemintic-be.herokuapp.com/images/", // PATH IMAGE
 
 	    customersDetailByUsername: [],
 	    petsAPI: [],
@@ -108,6 +109,7 @@
                              barrio
                              apellidos
                              idMascota
+			     image
                          }
                     }
 	   `,
