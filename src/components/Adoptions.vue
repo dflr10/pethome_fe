@@ -14,10 +14,19 @@
 
    	  <div class="col" v-for="(req) in req_list" :key="req.id_"> <!-- Template for aproval or denial-->
 	      <div class="card req-card">
-       		<h4 class="card-header text-center">{{req.nombres}}'s request</h4>
+       		<h2 class="card-header text-center">{{req.nombres}}'s request</h2>
 	        <div class="card-body">
-                        <img src="https://www.monitorexpresso.com/wp-content/uploads/2019/01/Perrito-ponerania.png" class="img-fluid rounded-start req-img" alt="imagen">
 		        <div class="row about">
+		          <div class="col-md-6 petInfo">
+                            <img :src="imagePath + req['0'].image" class="img-fluid rounded-start req-img" alt="imagen">
+        	            <h5 class="card-title">Adoption for {{req["0"].name}}</h5>
+		            <p class="card-text"><b>Name:</b> {{req["0"].name}}</p>
+		            <p class="card-text"><b>Description:</b> {{req["0"].description}}</p>
+		            <p class="card-text"><b>Species:</b> {{req["0"].specie}}</p>
+			    <p class="card-text"><b>Birthday:</b> {{req["0"].bday_aprox}}</p>
+			    <p class="card-text"><b>Registered on:</b> {{req["0"].date_register}}</p>
+			    <p class="card-text"><b>Available:</b> {{ req["0"].avaliable ? "Yes" : "No" }}</p>
+		          </div>
 		          <div class="col-md-6 person">
 		            <h5 class="card-title">{{req.nombres}} {{req.apellidos}}</h5>
 		            <p class="card-text"><b>First names:</b> {{req.nombres}}</p>
@@ -33,17 +42,6 @@
 		            <p class="card-text"><b>Salary:</b> {{req.salario}}</p>
 		            <p class="card-text"><b>Pets owned:</b> {{req.numMascotas}}</p>
 		            <p class="card-text"><b>Recommended:</b> {{req.recomendado ? "Yes" : "No"}}</p>
-		          </div>
-		          <div class="col-md-6">
-        	            <h5 class="card-title">Adoption for {{req["0"].name}}</h5>
-		            <p class="card-text"><b>Name:</b> {{req["0"].name}}</p>
-		            <p class="card-text"><b>Description:</b> {{req["0"].description}}</p>
-		            <p class="card-text"><b>Gender:</b> {{req["0"].gender}}</p>
-		            <p class="card-text"><b>Species:</b> {{req["0"].specie}}</p>
-		            <p class="card-text"><b>Breed:</b> {{req["0"].breed}}</p>
-			    <p class="card-text"><b>Birthday:</b> {{req["0"].bday_aprox}}</p>
-			    <p class="card-text"><b>Registered on:</b> {{req["0"].date_register}}</p>
-			    <p class="card-text"><b>Available:</b> {{ req["0"].avaliable ? "Yes" : "No" }}</p>
 		          </div>
 		        </div>
 
@@ -75,6 +73,7 @@
 	    num_requests: 0,
             
             pets_api: "https://pethomemintic-be.herokuapp.com",
+            imagePath:"https://pethomemintic-be.herokuapp.com/images/", // PATH IMAGE
 
 	    customersDetailByUsername: [],
 	    petsAPI: [],
@@ -130,6 +129,7 @@
                             date_register
                             description
                             avaliable
+			    image
                         }
                     }
 	  `,
@@ -182,7 +182,6 @@
 
       mounted: function(){
 	  this.get_requests();
-
       },
 
       created: function(){ 
@@ -210,6 +209,12 @@
 
 .req-h2 {
    text-align: center; 
+}
+
+.req-img{
+   max-width: 200px;
+   margin-top: 1em;
+   border-radius: 1em !important; 
 }
 
 .div-center  {
@@ -241,19 +246,53 @@
 
 .req-card{
   border-radius: 1em;
+  color: #5c5f66;
+  animation: appear 0.8s;
 }
 
 .req-card .about{
   margin-top: 1em;
 }
 
-.req-card .person{
-  border-right: 2px #c5c7cb solid;
+.petInfo, .person{
+  max-height: 600px;
+  max-width: 232px;
+}
+
+.person{
+  border: 1px #c5c7cb solid;
+  border-radius: 1em;
+}
+
+.petInfo{
+  padding-bottom: 2em;
+}
+
+.card {
+  align-items: center;
 }
 
 .card-header{
   background-color: rgba(0,0,0,0);
   border-bottom: none;
+}
+
+.card-text{
+   margin-bottom: 0.2em;
+   color: #707276;
+   font-size: 0.9rem;
+}
+
+.card-text b{
+   color: #5d6168;
+}
+
+.card-title{
+  text-align: center;
+}
+
+.petInfo .card-title{
+  margin-top: 1.4em;
 }
 
 .group-btns{
@@ -304,6 +343,17 @@
 	   transform: rotate(0deg);
 	 }
  }
+
+@keyframes appear{
+    from { 
+          transform: translateY(5%);
+	  opacity: 0;
+	  }
+    to   {
+          transform: translateY(0%);
+	  opacity: 1;
+         }
+}
 
  @media screen and (max-width: 750px) {
 
