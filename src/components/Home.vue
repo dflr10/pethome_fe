@@ -141,6 +141,7 @@
 
         .hero .information--title{
             font-weight: bold;
+	    text-align: center;
         }
 
         .hero .information{
