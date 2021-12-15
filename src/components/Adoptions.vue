@@ -2,11 +2,9 @@
 
 <div class="body-requests">
     
-  <div v-if="!requests" class = "container div-center">
-        <img class="vector-image" src="@/assets/norequests.webp" alt="">
-        <p class="information-starry" >There are not adoption requests yet</p>
-  </div>
-
+<div class="hero container div-center no-search-results" v-if="!requests">
+    <h2 class="hero-title">There are not adoption requests yet.</h2>
+</div>
 
   <div class="container" v-if="requests">
     <h2 class="req-h2"> We have found {{num_requests}} requests!</h2>
@@ -120,7 +118,7 @@
              query: gql`
 	            query PetsAPI {
                         petsAPI {
-			    id_pet
+			                id_pet
                             name
                             gender
                             breed
@@ -130,7 +128,6 @@
                             image
                             description
                             avaliable
-			    image
                         }
                     }
 	  `,
@@ -145,7 +142,9 @@
 	     try{
 	         this.obtain_organized_requests(JSON.parse(JSON.stringify(this.customersDetailByUsername)));
 		 if(this.num_requests > 0) {this.requests = true;}
+         console.log(this.req_list);
 	     }catch (error){
+             
 	         console.error(error); 
 	         this.requests = false;
 	     }
@@ -163,9 +162,12 @@
            obtain_organized_requests: function( all_requests ){
 	       all_requests.map( request => {
 		   this.pet_id = request.idMascota;
+           let temp=this.num_requests;
                    Object.assign(request, this.obtain_pet());
-		   this.req_list.push(request);
-	       }); 
+                   if (this.num_requests > temp) {
+                       this.req_list.push(request);
+                   }
+	       });
 
 	   },
 
@@ -238,6 +240,32 @@
    padding: 1em;
    
    animation: starry 2.2s infinite linear;
+}
+.hero{
+        background-size: cover;
+        background-position: center;
+        min-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        align-items: left;
+        justify-content: center;
+        color: #8E54E9;
+        font-size: 2rem;
+}
+
+.hero.no-search-results {
+        background-image: url("../assets/noSearchResults.png");
+}
+
+.hero, .hero-title, .p-title{
+        margin: 0 2rem;
+        font-weight: bold;
+        font-size: 2.5rem;
+        text-shadow: -1.5px 1.5px #8E54E9,
+                     1.5px 1.5px #8E54E9,
+                     1.5px -1.5px #8E54E9,
+                     -1.5px -1.5px #8E54E9;
+        color: white;
 }
 
 .req-group{
