@@ -199,7 +199,6 @@
 
 
 .body-requests{
-   background-color: #f7f7f9;
    min-height: inherit; 
    padding-top: 3em;
    padding-bottom: 1em;
@@ -258,7 +257,6 @@
 }
 
 .hero, .hero-title, .p-title{
-        margin: 0 2rem;
         font-weight: bold;
         font-size: 2.5rem;
         text-shadow: -1.5px 1.5px #8E54E9,
